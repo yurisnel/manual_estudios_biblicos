@@ -1,0 +1,53 @@
+<!--
+ Prueba para utilizacion de expresiones regulares en javascript
+-->
+
+<form id="page-options">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Expresion Regular</label>
+        <div class="col-sm-10">
+            <input class="form-control" name="reg" id="reg" value="">
+
+        </div>
+        <label class="col-sm-2 col-form-label">Modificadores</label>
+        <div class="col-sm-10">
+            <input class="form-control" name="mod" id="mod" />
+        </div>
+
+        <label class="col-sm-12 col-form-label">Texto</label>
+        <div class="col-sm-12">
+            <textarea class="form-control" name="html" id="html" />
+        </div>
+
+
+        <label class="col-sm-12 col-form-label">Result</label>
+        <div class="col-sm-12">
+            <textarea class="form-control" name="result" id="result" />
+        </div>
+
+    </div>
+
+</form>
+
+<script type="text/javascript">
+
+    $("body").on('change', "#reg,#mod,#html", function (e) {
+        updateTest();
+    });
+
+    function updateTest() {
+        var reg = $("#reg");
+        var mod = $("#mod");
+        var html = $("#html");
+        var result = $("#result");
+        result.html("");
+        var exp = new RegExp(reg.val(), mod.val());
+
+        var r = html.val().match(exp);
+        var txt = "";
+        for (var i in r) {
+            txt += r[i] + "\n";
+        }
+        result.html(txt);
+    }
+</script>

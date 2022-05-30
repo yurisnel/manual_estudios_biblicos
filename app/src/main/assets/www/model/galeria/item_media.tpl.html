@@ -1,0 +1,15 @@
+<div class="col-sm-6 col-md-4">
+    <div class="card mb-2 pt-2 file" style="${style}">
+        <a href="${href}" data-id="${node_id}"  class="tip text-center ${linkclass}" title="${title}" target="_blank">
+            {{if src}}
+            <img class="card-img-top" src="${src}"/>
+            {{/if}}
+            {{if type}}
+            <i class="icon fa ${type}"></i>
+            {{/if}}
+        </a>
+        <div class="card-body">
+            <p class="card-text text-truncate text-center" >${name}</p>
+        </div>
+    </div>
+</div>

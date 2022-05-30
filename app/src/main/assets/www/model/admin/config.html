@@ -1,0 +1,53 @@
+
+
+<form id="page-options">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Tamaño de las letras</label>
+        <div class="col-sm-10">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button id="zoom-plus" type="button" class="btn btn-success"><i aria-hidden="true" class="fa fa-plus"></i></button>
+                <button id="zoom-minus" type="button" class="btn btn-success"><i aria-hidden="true" class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<script type="text/javascript">
+
+    var fontSizeInit = 1;
+    var fontSize = fontSizeInit;
+    $("body").on('click', "#page-options button", function (e) {
+        var $el = $(e.currentTarget);
+        var body = $("#page_body");
+
+        $("span", body).css("font-size", "");
+        // $("a", body).css("font-size", "");
+
+        switch ($el.attr("id")) {
+            case "zoom-plus":
+                if (fontSize < 2) {
+                    fontSize += 0.1;
+                    body.css("font-size", fontSize + "rem");
+                }
+                break;
+
+            case "zoom-minus":
+                if (fontSize > fontSizeInit) {
+                    fontSize -= 0.1;
+                    body.css("font-size", fontSize+"rem");
+                }else{
+                    fontSize = fontSizeInit;
+                    body.css("font-size", "");
+                }
+                break;
+
+            case "zoom-reset":
+                fontSize = fontSizeInit;
+                body.css("font-size", "");
+                break;
+        }
+    });
+
+</script>

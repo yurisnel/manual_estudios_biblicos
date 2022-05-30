@@ -1,0 +1,384 @@
+
+body {
+    margin: 0px;
+    padding: 0px;
+    cursor: url(../images/juegos/espiral/icono.png), help;
+}
+
+#generalEspiral {
+    background-image: url(../images/juegos/espiral/fondo_1.png);
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 762px;
+
+}
+
+#dado {
+    position: absolute;
+    left: 604px;
+    top: 334px;
+}
+
+#cerrar {
+    position: absolute;
+    left: 900px;
+    top: 60px;
+    background-image: url(../images/juegos/espiral/boton_salir_resaltado.png);
+    background-repeat: no-repeat;
+    width: 70px;
+    height: 72px;
+}
+
+.class_usuario {
+    position: absolute;
+    left: 335px;
+    top: 660px;
+    background-image: url(../images/juegos/espiral/jugador.png);
+    background-repeat: no-repeat;
+    width: 58px;
+    height: 58px;
+}
+
+.class_maquina {
+    position: absolute;
+    left: 387px;
+    top: 620px;
+    background-image: url(../images/juegos/espiral/maquina.png);
+    background-repeat: no-repeat;
+    width: 57px;
+    height: 55px;
+}
+
+#cerrar:hover {
+    background-image: url(../images/juegos/espiral/boton_salir_normal.png);
+    background-repeat: no-repeat;
+}
+
+.dado_mostrar {
+    position: absolute;
+    left: 610px;
+    top: 340px;
+    opacity: .0;
+}
+
+.class_reloj {
+    position: absolute;
+    left: 902px;
+    top: 668px;
+    width: 86px;
+    height: 47px;
+    text-align: center;
+}
+
+.class_reloj_maquina {
+    position: absolute;
+    background-image: url(../images/juegos/espiral/pixel_para_estirar.png);
+    background-repeat: repeat;
+    left: 87px;
+    top: 273px;
+    bottom: 0px;
+    width: 51px;
+    height: 123px;
+    transition-property: height 1s linear 2s;
+    -moz-transition: height 1s linear 2s;
+    -webkit-transition: height 1s linear 2s;
+    -o-transition: height 1s linear 2s;
+}
+
+.class_targeta {
+    position: absolute;
+    background-image: url(../images/juegos/espiral/animacion_cartas/01.png);
+    background-repeat: no-repeat;
+    left: 57px;
+    top: 490px;
+    width: 232px;
+    height: 237px;
+}
+
+.class_reloj_usuario {
+    position: absolute;
+    background: url(../images/juegos/espiral/pixel_para_estirar.png) bottom center repeat;
+    background-repeat: repeat;
+    bottom: 0px;
+    left: 157px;
+    top: 273px;
+    width: 51px;
+    height: 123px;
+
+
+}
+
+#contador_m {
+    position: absolute;
+    font-family: "AdLib Win95BT";
+    font-weight: bold;
+    color: #fbbb75;
+    left: 170px;
+    top: 320px;
+    width: 25px;
+    height: 123px;
+    text-align: center;
+}
+
+#contador_u {
+    position: absolute;
+    font-family: "AdLib Win95BT";
+    font-weight: bold;
+    color: #fbbb75;
+    left: 100px;
+    top: 320px;
+    width: 25px;
+    height: 123px;
+    text-align: center;
+}
+
+.class_estadistica {
+    position: absolute;
+    left: 18px;
+    top: 236px;
+    width: 147px;
+    height: 233px;
+}
+
+.class_fecha {
+    width: 79px;
+    height: 15px;
+    float: left;
+}
+
+.class_minuto {
+    width: 33px;
+    float: left;
+    font-size: 25px;
+    font-family: "AdLib Win95BT";
+    font-weight: bold;
+    color: #fbbb75;
+    text-shadow: #000000;
+
+
+}
+
+.class_segundo {
+    width: 28px;
+    float: left;
+    font-size: 25px;
+    font-family: "AdLib Win95BT";
+    color: #fbbb75;
+    font-weight: bold;
+
+}
+
+.class_mili {
+    width: 10px;
+    float: left;
+    font-size: 12px;
+    font-family: "AdLib Win95BT";
+    color: #fbbb75;
+    text-align: left;
+    margin-top: 12px;
+    margin-left: 6px;
+    font-weight: bold;
+
+}
+
+.class_dia, .class_mes, .class_ano {
+    width: 18px;
+    float: left;
+    font-size: 12px;
+    font-family: "AdLib Win95BT";
+    color: #fbbb75;
+    font-weight: bold;
+}
+
+/*-------Ventana Modal-----*/
+.overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 1001;
+    opacity: .55;
+    -moz-opacity: 0.75;
+    filter: alpha(opacity=75);
+}
+
+/* estilo para lo q este dentro de la ventana modal */
+
+.modal {
+    display: none;
+    position: absolute;
+    width: 473px;
+    height: 300px;
+    top: 25%;
+    left: 32%;
+    color: #333;
+    z-index: 1002;
+    overflow: auto;
+
+}
+
+.modalV {
+    display: none;
+    position: absolute;
+    width: 958px;
+    height: 706px;
+    top: 5%;
+    left: 5%;
+    color: #333;
+    z-index: 1002;
+    overflow: auto;
+
+}
+
+#light9 {
+    display: none;
+    background: url(../images/juegos/espiral/ventanas_especiales/9.png) no-repeat;
+}
+
+#light19 {
+    display: none;
+    background: url(../images/juegos/espiral/ventanas_especiales/19.png) no-repeat;
+}
+
+#light21 {
+    display: none;
+    background: url(../images/juegos/espiral/ventanas_especiales/21.png) no-repeat;
+}
+
+#light31 {
+    display: none;
+    background: url(../images/juegos/espiral/ventanas_especiales/31.png) no-repeat;
+}
+
+#light39 {
+    display: none;
+    background: url(../images/juegos/espiral/ventanas_especiales/39.png) no-repeat;
+}
+
+#light54 {
+    display: none;
+    background: url(../images/juegos/espiral/ventanas_especiales/45.png) no-repeat;
+}
+
+#light60 {
+    display: none;
+    background: url(../images/juegos/espiral/ventanas_especiales/60.png) no-repeat;
+}
+
+#ganado {
+    display: none;
+    background: url(../images/juegos/espiral/has_ganado.png) no-repeat;
+}
+
+#perdido {
+    display: none;
+    background: url(../images/juegos/espiral/has_perdido.png) no-repeat;
+}
+
+#pregunta {
+    display: none;
+    background: url(../images/juegos/espiral/ventana_pregunta/ventanas_pregunta.png) no-repeat;
+}
+
+.text_pregunta {
+
+    color: #fff;
+    font-size: 17px;
+    font-family: Trebuchet MS;
+    font-weight: normal;
+    text-shadow: black 0.1em 0.1em 0.2em;
+
+    /*position:absolute;
+    top:139px;
+    left:68px;
+     width:793px;
+    height:116px;*/
+
+
+}
+
+.linea_arriba {
+    height: 10px;
+    /*    
+    position:absolute;
+    top:259px;
+    left:38px;*/
+    background: url(../images/juegos/espiral/ventana_pregunta/linea_horizontal.png) no-repeat;
+}
+
+.linea_abajo {
+    width: 80%;
+    position: absolute;
+    top: 619px;
+    left: 100px;
+}
+
+#responder {
+
+    position: absolute;
+    top: 642px;
+    left: 173px;
+    width: 246px;
+    height: 45px;
+    background: url(../images/juegos/espiral/ventana_pregunta/botones/responder_normal.png) no-repeat;
+    cursor: url(../images/juegos/espiral/icono.png), help;
+}
+
+#no_responder {
+
+    position: absolute;
+    top: 642px;
+    left: 546px;
+    width: 304px;
+    height: 44px;
+    cursor: url(../images/juegos/espiral/icono.png), help;
+    background: url(../images/juegos/espiral/ventana_pregunta/botones/no_responder_normal.png) no-repeat;
+}
+
+#no_responder:hover {
+
+    background: url(../images/juegos/espiral/ventana_pregunta/botones/no_responder_resaltado.png) no-repeat;
+}
+
+#responder:hover {
+
+    background: url(../images/juegos/espiral/ventana_pregunta/botones/responder_resaltado.png) no-repeat;
+}
+
+#contenido_pregunta {
+
+    /*position:absolute;
+    top:279px;
+    left:78px; 
+	height:326px;
+    width:80%;*/
+
+}
+
+/* Css para rotacion de targeta   */
+.caja {
+    position: absolute;
+    top: 597px;
+    left: 255px;
+    margin-top: -50px;
+    margin-left: -125px;
+    width: 115px;
+    height: 180px;
+    background: url(../images/juegos/espiral/targeta.png) no-repeat;
+    /*background: #D2A474;
+    border: 1px solid #D2A474;
+    color: #D2A474;
+    -moz-border-radius-bottomleft: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-topright: 10px;*/
+}
+
+.css3 {
+
+    -moz-transform: rotate(69deg);
+
+}

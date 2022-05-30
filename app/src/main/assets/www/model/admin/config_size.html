@@ -1,0 +1,42 @@
+<!--
+Prueba de formulario para cambiar tamaños de letras
+-->
+
+
+<form id="page-options">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Tamaño de parrafos</label>
+        <div class="col-sm-10">
+            <input class="form-control" name="parrafos" id="parrafos" value="1.2">
+
+        </div>
+
+        <label class="col-sm-2 col-form-label">Tamaño de traducciones</label>
+        <div class="col-sm-10">
+            <input class="form-control" name="traducciones" id="traducciones" value="0.9">
+        </div>
+
+    </div>
+    <div class="text-center">
+        <button id="save" type="button" class="btn btn-success center-block accept">Salvar</button>
+    </div>
+</form>
+
+<script type="text/javascript">
+    var fontSizeInit = 1;
+    var fontSize = fontSizeInit;
+    $("body").on('click', "#save", function (e) {
+
+        var body = $("#page_body");
+        var parrafos = $("#parrafos");
+        var traducciones = $("#traducciones");
+
+        $("span", body).css("font-size", "");
+// $("a", body).css("font-size", "");
+
+        body.css("font-size", parrafos.val() + "rem");
+        $(".text_small").css("font-size", traducciones.val() + "rem");
+
+    });
+
+</script>

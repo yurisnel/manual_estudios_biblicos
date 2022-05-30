@@ -1,0 +1,49 @@
+#site-header {
+    background-color: #00;
+}
+.bg-primary{
+    background-color:  !important;
+}
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link{
+    background-color: #4d}
+.navbar-nav .dropdown-menu{
+  background-color:  ;
+}
+@media screen and (max-width: 991px) {
+    .slide-nav.collapse.show {
+        color: #fff !important;
+        background-color:  ;
+    }
+}
+.navbar-nav .nav-link{
+    background-color:  ;
+}
+.alert-primary {
+    color: #212529;
+    background-color: #80;
+    border-color:  #4d;
+}
+a{
+    color: ;
+}
+a:hover{
+    color: #66;
+}
+a#ver{
+    color: #00;
+}
+h3, h4, h5 {
+    color: ;
+}
+.libro{
+    color: ;
+}
+.list-hover-line > li > a::before {
+    border-color: #80;
+}
+.list-hover-line > li > a.active {
+    border-color: !important;
+}
+.badge-primary{
+    background-color: ;
+}

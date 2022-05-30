@@ -1,0 +1,479 @@
+/*div.sopa{
+background-image:url(../images/<?=$THEMANAME?>/sopa.png);
+opacity:0.7;
+width:80px;
+height:60px;
+padding:1px;
+float:left
+} 
+div.ahorcado{
+background-image:url(../images/<?=$THEMANAME?>/ahorca_ocre.png);
+opacity:0.7;
+width:80px;
+height:60px;
+padding:1px;
+float:left
+} */
+/*div.sopa{
+background-position:-315px 0px;
+}
+div.ahorcado{
+background-position:-157px 0px;
+}*/
+div.ahorcado:hover {
+    opacity: 1;
+}
+
+div.sopa:hover {
+    opacity: 1;
+}
+
+/*---------------CSS Sopa Palabra-----------------------*/
+#sopa_fondo {
+    background-image: url(../images/juegos/sopa/fondo.jpg);
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 758px;
+    cursor: url(../images/juegos/sopa/puntero_cuchara_2.png), help;
+    overflow: hidden
+}
+
+.area_sup {
+    width: 400px;
+    height: 160px;
+    margin: 10px 0 0 60px;
+}
+
+.area_inf {
+    width: 400px;
+    height: 160px;
+    margin: 450px 0 0 60px;
+}
+
+#cerrar {
+    background-image: url(../images/juegos/sopa/terminar_normal.png);
+    background-repeat: no-repeat;
+    width: 138px;
+    height: 138px;
+    float: left
+}
+
+#cerrar:hover {
+    background-image: url(../images/juegos/sopa/terminar_resaltado.png);
+    background-repeat: no-repeat;
+    cursor: pointer
+}
+
+#audio {
+    background-image: url(../images/juegos/sopa/audio_normal.png);
+    background-repeat: no-repeat;
+    width: 138px;
+    height: 138px;
+    display: none;
+    float: left
+}
+
+#audio:hover {
+    background-image: url(../images/juegos/sopa/audio_resaltado.png);
+    background-repeat: no-repeat;
+    display: none;
+    cursor: pointer
+}
+
+#comensar {
+    background-image: url(../images/juegos/sopa/comensar_normal.png);
+    background-repeat: no-repeat;
+    width: 138px;
+    height: 138px;
+    float: left
+}
+
+#comensar:hover {
+    background-image: url(../images/juegos/sopa/comensar_resaltado.png);
+    background-repeat: no-repeat;
+    cursor: pointer
+}
+
+#comprobar {
+    background-image: url(../images/juegos/sopa/comprobar_normal.png);
+    background-repeat: no-repeat;
+    width: 138px;
+    height: 138px;
+    float: left
+}
+
+#comprobar:hover {
+    background-image: url(../images/juegos/sopa/comprobar_resaltado.png);
+    background-repeat: no-repeat;
+    cursor: pointer
+}
+
+#sopa {
+    position: absolute;
+    height: 561px;
+    width: 486px;
+    left: 474px;
+    top: 80px;
+    overflow: auto;
+}
+
+.modalS {
+    display: none;
+    position: absolute;
+    width: 590px;
+    height: 606px;
+    top: 15%;
+    left: 24%;
+    color: #333;
+    z-index: 1002;
+    overflow: auto;
+}
+
+.modalP {
+    display: none;
+    position: absolute;
+    width: 516px;
+    height: 702px;
+    top: 15%;
+    left: 24%;
+    color: #333;
+    z-index: 1002;
+    overflow: auto;
+}
+
+.modalE {
+    display: none;
+    position: absolute;
+    width: 590px;
+    height: 606px;
+    top: 15%;
+    left: 16%;
+    color: #333;
+    z-index: 1002;
+    overflow: auto;
+}
+
+/*-------Ventana Modal-----*/
+.overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 1001;
+    opacity: .55;
+    -moz-opacity: 0.75;
+    filter: alpha(opacity=75);
+}
+
+/* estilo para lo q este dentro de la ventana modal */
+#lightG {
+    background: url(../images/juegos/sopa/has_ganado.png);
+}
+
+#lightP {
+    background: url(../images/juegos/sopa/has_perdido.png);
+}
+
+#palabras {
+    background: url(../images/juegos/sopa/palabara_no_encontrada.png);
+    background-repeat: no-repeat;
+}
+
+#lightSopa {
+    display: none;
+    background: url(../images/juegos/sopa/seleccion_de_nivel.png) no-repeat;
+}
+
+#select_sopa {
+    display: block;
+    position: absolute;
+    width: 183px;
+    height: 215px;
+    left: 160px;
+    top: 180px;
+}
+
+div.letraSopa {
+    background-color: #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    /*-moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;*/
+    font-size: 1.3em;
+    width: 25px;
+    height: 25px;
+/ / border-color: #CC0000;
+}
+
+div.letraSopa:hover {
+    background-color: #333333;
+    text-align: center;
+    color: #FF9900;
+    font-weight: bold;
+    font-size: 1.3em;
+    -moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    width: 25px;
+    height: 25px;
+}
+
+div.letraSopaClick {
+    background-color: #333333;
+    text-align: center;
+    color: #FF9900;
+    font-weight: bold;
+    font-size: 1.3em;
+    -moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    width: 25px;
+    height: 25px;
+}
+
+#nivel_1_S:hover {
+    background: url(../images/juegos/sopa/nivel_1_resaltado.png);
+    background-repeat: no-repeat;
+    width: 183px;
+    height: 55px;
+    cursor: pointer;
+}
+
+#nivel_2_S:hover {
+    background: url(../images/juegos/sopa/nivel_2_resaltado.png);
+    background-repeat: no-repeat;
+    width: 183px;
+    height: 55px;
+    cursor: pointer;
+}
+
+#nivel_3_S:hover {
+    background: url(../images/juegos/sopa/nivel_3_resaltado.png);
+    background-repeat: no-repeat;
+    width: 183px;
+    height: 55px;
+    cursor: pointer;
+}
+
+#nivel_1_S {
+    background: url(../images/juegos/sopa/nivel_1.png);
+    background-repeat: no-repeat;
+    width: 183px;
+    height: 55px;
+}
+
+#nivel_2_S {
+    background: url(../images/juegos/sopa/nivel_2.png);
+    background-repeat: no-repeat;
+    width: 183px;
+    height: 55px;
+}
+
+#nivel_3_S {
+    background: url(../images/juegos/sopa/nivel_3.png);
+    background-repeat: no-repeat;
+    width: 183px;
+    height: 55px;
+}
+
+#sopa_nivel {
+    background-repeat: no-repeat;
+    width: 183px;
+    height: 55px;
+    position: absolute;
+    left: 620px;
+    top: 700px;
+}
+
+#sopa_pizarra {
+    background: url(../images/juegos/sopa/pizarrita.png);
+    background-repeat: no-repeat;
+    position: absolute;
+    display: block;
+    height: 282px;
+    width: 353px;
+    left: 48px;
+    top: 370px;
+}
+
+#sopa_pizarra1 {
+    background: url(../images/juegos/sopa/pizarrita1.png);
+    background-repeat: no-repeat;
+    position: absolute;
+    display: none;
+    height: 142px;
+    width: 350px;
+    left: 50px;
+    top: 425px;
+}
+
+#contenido_pizarra {
+    color: #FFFFCC;
+    font-weight: bold;
+    position: absolute;
+    height: 113px;
+    width: 266px;
+    left: 42px;
+    top: 50px;
+    max-width: 266px;
+    overflow: auto;
+}
+
+#contenido_pizarra1 {
+    color: #FFFFCC;
+    font-weight: bold;
+    position: absolute;
+    height: 67px;
+    width: 266px;
+    left: 42px;
+    top: 165px;
+    max-width: 266px;
+    overflow: auto;
+}
+
+#contenido_pizarra2 {
+    color: #FFFFCC;
+    font-weight: bold;
+    position: absolute;
+    height: 75px;
+    width: 266px;
+    left: 42px;
+    top: 18px;
+    max-width: 266px;
+    overflow: auto;
+}
+
+#reloj {
+    background: url(../images/juegos/sopa/fondo_reloj.png);
+    background-repeat: no-repeat;
+    position: absolute;
+    display: none;
+    height: 142px;
+    width: 220px;
+    left: 90px;
+    top: 520px;
+}
+
+#imag_reloj {
+    background: url(../images/juegos/sopa/reloj.gif);
+    background-repeat: no-repeat;
+    position: absolute;
+    display: block;
+    height: 100px;
+    width: 133px;
+    left: 45px;
+    top: 25px;
+}
+
+.capa_reloj {
+    position: absolute;
+    display: block;
+    height: 100px;
+    width: 133px;
+    left: 45px;
+    top: 24px;
+}
+
+#lightEstadist {
+    background: url(../images/juegos/sopa/estadistica_del_juego.png);
+    background-repeat: no-repeat;
+    height: 516px;
+    width: 702px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#ver_palabra {
+    position: relative;
+    display: none;
+    left: 134px;
+    opacity: 0.7;
+    top: 219px;
+    width: 365px;
+    height: 32px;
+}
+
+#ver_palabra:hover {
+    background: #000;
+    opacity: 0.3;
+    -moz-border-radius-bottomleft: 10px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 18px;
+}
+
+#ver_palabraC {
+    position: relative;
+    display: none;
+    left: 174px;
+    opacity: 0.7;
+    top: 137px;
+    width: 325px;
+    height: 32px;
+}
+
+#ver_palabraC:hover {
+    background: #000;
+    opacity: 0.3;
+    -moz-border-radius-bottomleft: 10px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 18px;
+}
+
+#contenido_palabra {
+    position: relative;
+    left: 120px;
+    top: 119px;
+    width: 270px;
+    height: 400px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.letra {
+    text-shadow: 1px 1px black, -1px -1px #ddd;
+    color: red;
+    padding: 10px;
+}
+
+#est_gan, #est_perd, #est_efect {
+    position: relative;
+    left: 520px;
+    width: 120px
+}
+
+#est_gan {
+    top: 249px;
+}
+
+#est_perd {
+    top: 277px;
+}
+
+#est_efect {
+    top: 309px;
+}
+
+.ui-progressbar-value {
+    background-image: url(../images/juegos/sopa/pixel.png);
+}
+
+.ui-progressbar .ui-progressbar-value {
+    height: 100%;
+    margin: -1px;
+}
+
+.ui-progressbar {
+    height: 6em;
+    text-align: left;
+}
+
+/*------------------------------------------------------*/

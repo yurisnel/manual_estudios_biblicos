@@ -1,0 +1,112 @@
+<script type='text/javascript'>
+
+    //config=window.opener.config;
+    var urlFile = 'fuentes/' + config.producto + '/medias/otros/' + config.datosProd.presentacion;
+
+    function tecla(e) {
+        /*  var evt = e ? e : event;
+         if(evt.keyCode==27)	{
+         stopEvent(evt);
+         saltarPresentacion();
+         }
+         */
+    }
+    function stopEvent(e) {
+        if (!e) e = window.event;
+        if (e.stopPropagation) {
+            e.stopPropagation();
+        } else {
+            e.cancelBubble = true;
+        }
+    }
+
+    function tiempo(offset) {
+
+        //$('#texto').html('position:'+offset.position);
+    }
+
+
+    function saltarPresentacion() {
+        document.cookie = "closePresent=true";
+
+        if (jwplayer("playerID")) jwplayer("playerID").stop();
+        //window.close() ;
+        p = $("#containerFlash").parent();
+        p.remove();
+
+        $(".animacion", "#iniMediaPresent").show();
+    }
+
+    function present() {
+        containerFlash = document.getElementById('containerFlash');
+        $(".animacion", "#iniMediaPresent").hide();
+        var pos = urlFile.lastIndexOf('.');
+        var ext = urlFile.substr(pos + 1).toLowerCase();
+
+        if (ext == "flv") {
+
+            var flashvars = {
+                file: urlFile,
+                autostart: true,
+                'controlbar.position': 'over',
+
+            };
+
+            var params = {
+                allowfullscreen: 'true',
+                allowscriptaccess: 'always',
+
+            };
+
+            var attributes = {
+                id: 'playerID',
+                name: 'playerID',
+
+            };
+
+            swfobject.embedSWF("player.swf", 'playerID', '700', '500', '9', 'false',
+                flashvars, params, attributes, function (e) {
+                    jwplayer(e.ref).onComplete(function () {
+                        saltarPresentacion();
+                    });
+                });
+
+
+        } else if (ext == "swf") {
+            containerFlash.innerHTML = '<object  width="640" height="480"><embed src="' + urlFile + '" quality="high" type="application/x-shockwave-flash" width="640" height="480"></embed></object><a href="#" id="saltar" onClick="saltarPresentacion">Saltar</a>';
+        }
+        else if (ext == "jpg" || ext == "png" || ext == "bmp" || ext == "gif") {
+            containerFlash.innerHTML = '<center><img src="' + urlFile + '" /><a href="#" id="saltar" onClick="saltarPresentacion">Saltar</a>';
+        }
+
+
+    }
+    ;
+
+    var containerFlash;
+    $(document).ready(function () {
+
+        present();
+        containerFlash = $("#containerFlash");
+        p = containerFlash.parent();
+        p.click(saltarPresentacion);
+        p.keypress(tecla);
+
+    });
+
+</script>
+
+
+<style type="text/css">
+    a#saltar {
+        color: #fff;
+        display: block;
+    }
+
+</style>
+
+<div id="containerFlash" style="margin:50px 0 0 0;background:#000">
+    <object id="playerID"></object>
+</div>
+
+

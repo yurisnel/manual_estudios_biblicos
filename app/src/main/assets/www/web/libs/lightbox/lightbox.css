@@ -1,0 +1,31 @@
+/*#lightbox {
+	background-color: #eee;
+	padding: 10px;
+	border-bottom: 1px solid #666;
+	border-right: 1px solid #666;
+}*/
+#lightboxCaption {
+	color: #000;
+	background-color: #fff;
+	text-align:justify;
+	border-bottom: 1px solid #666;
+	border-right: 1px solid #666;
+	font: 15px Arial, Helvetica, sans-serif; 
+	overflow:scroll;
+	
+  
+	
+}
+#lightboxIndicator {
+	border: 1px solid white;
+}
+#lightboxOverallView,
+#overlay {
+	background-color: #000;
+	opacity: 0.5;
+}
+* html #lightboxOverallView,
+* html #overlay {
+	background-color: #000;
+	filter: Alpha(opacity=50);
+}

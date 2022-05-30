@@ -1,0 +1,14 @@
+<h3>Visor de Colecciones</h3>
+
+{{each(cole,products) products}}
+<div class="card" >
+    <div class="card-header">
+        ${cole}
+    </div>
+    <ul class="list-group list-group-flush">
+        {{each(i,data) products}}
+        <li class="list-group-item"><a href="?p=${data.name}" target="_blank">${data.title} </a></li>
+        {{/each}}
+    </ul>
+</div>
+{{/each}}

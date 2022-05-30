@@ -1,0 +1,135 @@
+<form id="datos_config" name="datos_config" method="post" action="">
+
+    <div class="row" id="ejerConfig">
+        <div id="div_categoria" class="col-md-6 mt-2">
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Temas disponibles:</h4>
+                    <ul class="list-group" id="categorias_ejer"></ul>
+
+                    <div class="alert-primary" style="padding: 5px 10px 5px 20px; margin-top: 3px">
+                        <label>
+                            <input type="checkbox" id="todos" name="checkbox2" value=""/> Todos
+                            <a href="#" id="ver"> Ver</a>
+                        </label>
+
+                        <div id="mostrar_total" class="pull-right"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="div_opciones" class="col-md-6 mt-2">
+
+            <div id="agrupa_intervalo">
+                <label class="redondear-top alert-primary" style="margin-bottom: 0px">
+                    <input type="radio" name="opcion"
+                           id="intervalo"
+                           checked
+                           value="intervalo"/> Intervalo
+                </label>
+
+                <div id="op_intervalo" class="border px-2">
+                    <div class="row">
+                        <div class="col-4">
+                            Inicio
+                            <input name="inicio" type="text" id="inicio" size="3" maxlength="3"
+                                   class="form-control"/>
+                        </div>
+                        <div class="col-4">
+                            Fin
+                            <input name="fin" type="text" id="fin" size="3" maxlength="3"
+                                   class="form-control"/>
+                        </div>
+
+                    </div>
+                    <div class="mt-2">
+                        <label><input name="interv_modo" id="secuencial1" type="radio" value="secuencia"
+                                      checked="checked"/>
+                            Secuencial
+                        </label>
+
+                        <label id="boton_azar1"><input name="interv_modo" id="azar1" type="radio" value="azar"/>
+                            Al azar
+                        </label>
+
+                        <label id="int_azar" class="ml-3">Cantidad:
+                            <input name="intervalo_cant" type="text" id="intervalo_cant" size="3" maxlength="3"
+                                   class="form-control"/>
+                        </label>
+
+                    </div>
+                </div>
+
+                <div id="banner_inf_intervalo" class="redondear-bottom alert-primary"></div>
+            </div>
+            <div id="agrupa_asignado" class="my-2">
+                <label id="banner_asignados" class="redondear-top alert-primary" style="margin-bottom: 0px">
+                    <input type="radio" name="opcion" id="asignado" value="asignado"/>
+                    Asignados
+                </label>
+                <div id="op_asignados" class="border px-2 py-2 ">
+                    <div id="agrupa_seleccion" class="d-flex align-items-center">
+                        <button type="button" class="btn btn-primary" id="btnSelec">
+                            Seleccionar <i class="fa fa-chevron-circle-right"></i>
+                        </button>
+
+                        <select name="lista_select" id="lista_select" size="5" multiple
+                                class="form-control"></select>
+                    </div>
+                    <div class="mt-2">
+                        <label>
+                            <input name="asig_modo" id="secuencial2" type="radio" value="secuencia" checked="checked"/>
+                            Secuencial
+                        </label>
+
+                        <label>
+                            <input name="asig_modo" id="azar2" type="radio" value="azar"/>
+                            Al azar
+                        </label>
+
+                        <label id="asig_azar" class="ml-3"> Cantidad:
+                            <input name="asig_cant" type="text" id="asig_cant" size="3"
+                                   class="form-control"/>
+                        </label>
+
+
+                    </div>
+                </div>
+                <div id="banner_inf_asignados" class="redondear-bottom alert-primary"></div>
+            </div>
+        </div>
+
+        <div id="escalas" class="col-12 alert-primary py-2 mt-2 d-flex justify-content-center">
+            <label>
+                <input name="escala" id="esc_100" type="radio" value="esc_100" checked="checked"/> Escala hasta 100
+            </label>
+            <label>
+                <input name="escala" id="esc_5" type="radio" value="esc_5"/> Escala hasta 5
+            </label>
+            <label>
+                <input name="escala" id="esc_e" type="radio" value="esc_e"/> Escala hasta E
+            </label>
+        </div>
+
+
+        <div class="col-12 text-center">
+            <button id="btn_comenzar" type="button" class="btn btn-success mt-2" style="margin: auto">
+                <i aria-hidden="true" class="fa fa-check-square-o"></i> COMENZAR
+            </button>
+        </div>
+    </div>
+</form>
+<!--<div id="configuraciones" >CONFIGURACIONES</div>-->
+<div id="ventanaEjercicios"></div>
+
+<script>
+    if(app.currentModule == config.mod.ejercicio){
+        ejer.init();
+    }else{ // config.mod.simulador
+        sim.init();
+    }
+
+</script>

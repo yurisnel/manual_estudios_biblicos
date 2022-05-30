@@ -1,0 +1,44 @@
+
+@font-face {
+    font-family: 'hebraica';
+    src: url('fonts/HEBII.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'greca';
+    src: url('fonts/GRII.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.greca {
+    font-family: 'greca';
+    font-size: 1.5rem;
+    line-height: 0;
+}
+
+.hebraica {
+    font-family: 'hebraica';
+    font-size: 1.5rem;
+    line-height: 0;
+}
+.text_small{
+    font-size: 0.8rem;
+}
+
+.text_large{
+    font-size: 1.4rem;
+}
+
+.text_extra{
+    font-size: 1.8rem;
+}
+
+.list-group-item-action a{
+    color:#495057;
+}
+
+.home_full_screen{
+    margin: -16px -16px 10px -16px
+}
