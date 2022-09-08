@@ -1,5 +1,7 @@
 package com.biblicalinstitute.manual;
 
+
+
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -270,3 +272,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+

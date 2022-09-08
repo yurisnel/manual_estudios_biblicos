@@ -24,34 +24,36 @@ var temario = function () {
         creado: false,
         init: function () {
             $('embed').css('visibility', 'hidden');
-            temario.loadTree(false);
+            temario.loadTree(config.mod.contenido);
             app.refreshPag();
             temario.pag.actual = -1;
+
+            if(temario.lastTemaOpen){
+                $el = $("#"+temario.lastTemaOpen + '_tema');
+                if($el.length > 0){
+                    $('html, body').animate({
+                        scrollTop: parseInt($el.offset().top)
+                    }, 1000);    
+                }                            
+            }
         },
 
-        loadTree: function (e) {
+        loadTree: function (idNode, param={}) {
 
-            var idNode, addClass, parent_id, addClass, addClassLi;
-
-            if (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                if ($(e.target).hasClass("libro")) return;
-
-                idNode = parseInt(e.currentTarget.id);
-                addClass = "subtemas";
-                addClassLi = "";
-                parent_id = idNode + '_tema';
-            } else {
-                idNode = config.mod.contenido;
-                addClass = "list-group flex-column";
-                addClassLi = "list-group-item list-group-item-action";
-                parent_id = "temarioList";
-            }
-
+            //var addClass, parent_id, addClass, addClassLi;
+            
+            if(idNode == config.mod.contenido){
+                param.addClass = "list-group flex-column";
+                param.addClassLi = "list-group-item list-group-item-action";
+                param.parent_id = "temarioList";                                    
+            }else{
+                param.addClass = "subtemas";
+                param.addClassLi = "";
+                param.parent_id = idNode + '_tema';     
+            }           
 
             /*verificar si se tiene que cargar los datos o solo mostrar o ocultar*/
-            var $parent = $('#' + parent_id);
+            var $parent = $('#' + param.parent_id);
             if ($parent.length == 0) return;
 
             var items_ui = $("ul.subtemas", $parent)
@@ -59,15 +61,17 @@ var temario = function () {
                 //$subtema.delay(10).slideToggle();
                 if ($parent.hasClass("show")) {
                     $parent.removeClass("show");
+                    app.nodeTree[idNode].show = false;
                     //$("ul.subtemas",$parent ).attr("style","margin-top:inherit");
                 } else {
                     $parent.addClass("show");
+                    app.nodeTree[idNode].show = true;                  
                 }
 
                 return;
             }
 
-            $.template('liTpl', '<li class="' + addClassLi + ' py-1 tema ${addClass}" id="${node_id}_tema">' +
+            $.template('liTpl', '<li class="py-1 tema ${addClass}" id="${node_id}_tema">' +
                 '<a  href="" id="${node_id}_link">${name}</a></li>');
 
             /*cargar temario y subtemario*/
@@ -76,29 +80,35 @@ var temario = function () {
 
             if (children && children.length > 0) {
 
-                var items_ui = $('<ul class="' + addClass + '">').appendTo($parent);
+                var items_ui = $('<ul class="' + param.addClass + '">').appendTo($parent);
                 $parent.addClass("show");
+                app.nodeTree[idNode].show = true;               
 
                 $.each(children, function (i, pos) {
 
-                    var idat = app.nodeList[pos], data = {};
+                    idat = app.nodeList[pos];
+                    data = {};
                     data.node_id = idat[app.node.id];
                     data.name = idat[app.node.name];
                     data.content = parseInt(idat[app.node.sicontent]);
+                    data.addClass = param.addClassLi;
 
                     if (!app.nodeTree[data.node_id].list || app.nodeTree[data.node_id].list.length == 0) {
-                        data.addClass = "";
+                        data.addClass += " ";
                     } else {
-                        data.addClass = "is_parent";
+                        data.addClass += " is_parent";
                     }
 
                     $.tmpl('liTpl', data).appendTo(items_ui);
 
                     if (data.content) {
-                        var libro = ' <i title="Mostrar Contenido" class="libro fa fa-book"></i>';
+                        libro = ' <i title="Mostrar Contenido" class="libro fa fa-book"></i>';
                         $('#' + data.node_id + '_tema').append(libro);
                     }
 
+                    if(app.nodeTree[data.node_id].show){
+                        temario.loadTree(parseInt(data.node_id));
+                    }
                 });
 
             } else {
@@ -209,6 +219,7 @@ var temario = function () {
                 "call": "showPage",
                 "params": [id_tema]
             });
+            temario.lastTemaOpen = id_tema;
         },
 
         getDataTema: function (id_tema) {
@@ -355,7 +366,14 @@ $(document).ready(function () {
 
     var body = $('body');
     body
-        .on('click', '#temarioList .tema', temario.loadTree)
+        .on('click', '#temarioList .tema', function(e){         
+                e.preventDefault();
+                e.stopPropagation();
+                if ($(e.target).hasClass("libro")) return;
+                idNode = parseInt(e.currentTarget.id);
+                temario.loadTree(idNode);
+           
+        })
         .on('click', "#temarioList .libro", temario.selectWook);
 
 });

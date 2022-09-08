@@ -1,0 +1,99 @@
+<html>
+<head>
+    <title>Juego Ahorcado</title>
+
+    <link rel="stylesheet" type="text/css" href="../../web/css/ahorcado.css">
+
+
+</head>
+<body>
+<div id="fade" class="overlay"></div>
+
+<div id="light" class="modal">
+    <div id="select_radio">
+        <div id="nivel_1" onclick="nsjuego.entrarNivel(1)"></div>
+        <br/>
+        <div id="nivel_2" onclick="nsjuego.entrarNivel(2)"></div>
+        <br/>
+        <div id="nivel_3" onclick="nsjuego.entrarNivel(3)"></div>
+    </div>
+</div>
+
+<div id="lightP" class="modal" onclick="nsjuego.continuar()">
+    <div id="fallo_resp"></div>
+</div>
+
+<div id="lightG" class="modal" onclick="nsjuego.continuar()"></div>
+
+<div id="lightEstadist" class="modal" onclick="nsjuego.salir()">
+    <div id="est_gan"></div>
+    <div id="est_perd"></div>
+    <div id="est_efect"></div>
+
+</div>
+
+<div id="juego_general">
+    <div id="juego_banner">
+        <div class="titulo_Ahorcado"></div>
+        <div id="juego_rendirce" onclick="nsjuego.salir()"></div>
+        <div id="juego_salir" onclick="nsjuego.empezar()"></div>
+        <div id="juego_estadist"></div>
+        <div id="juego_nivel"></div>
+    </div>
+    <div id="juego_contenedor">
+        <div id="juego_icPregunta"><img src="../../web/images/juegos/ahorcado/icono_pregunta.png"/></div>
+        <div id="descripcion"></div>
+    </div>
+    <div id="juego_fondo">
+        <div id="juego_alfa">
+            <div id="A" class="letras"></div>
+            <div id="B" class="letras"></div>
+            <div id="C" class="letras"></div>
+            <div id="D" class="letras"></div>
+            <div id="E" class="letras"></div>
+            <div id="F" class="letras"></div>
+            <div id="G" class="letras"></div>
+            <div id="H" class="letras"></div>
+            <div id="I" class="letras"></div>
+            <div id="J" class="letras"></div>
+            <div id="K" class="letras"></div>
+            <div id="L" class="letras"></div>
+            <div id="M" class="letras"></div>
+            <div id="N" class="letras"></div>
+            <div id="AD" class="letras"></div>
+            <div id="O" class="letras"></div>
+            <div id="P" class="letras"></div>
+            <div id="Q" class="letras"></div>
+            <div id="R" class="letras"></div>
+            <div id="S" class="letras"></div>
+            <div id="T" class="letras"></div>
+            <div id="U" class="letras"></div>
+            <div id="V" class="letras"></div>
+            <div id="W" class="letras"></div>
+            <div id="X" class="letras"></div>
+            <div id="Y" class="letras"></div>
+            <div id="Z" class="letras"></div>
+        </div>
+
+    </div>
+    <div id="canva">
+        <img src="../../web/images/juegos/ahorcado/soga.png"/>
+        <div id="cuerpo_ahorcado"><img src="../../web/images/juegos/ahorcado/mucheco_00.png"/></div>
+    </div>
+    <div id="cot_palabra">
+        <center>
+            <div id="juego_palabra"></div>
+        </center>
+    </div>
+
+    <div id="reloj">
+        <div id="contenido"></div>
+    </div>
+</div>
+
+<script type='text/javascript' src='../../web/libs/jquery/dist/jquery.min.js'></script>
+<script type='text/javascript' src='../../web/js/juego.js'></script>
+<script type='text/javascript' src='../../web/js/ahorcado.js'></script>
+
+</body>
+<html>

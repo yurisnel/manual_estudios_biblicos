@@ -139,7 +139,7 @@ var sim = function () {
 
 
         createCategoria: function () {
-            ejer.createCategoria(config.mod.simulador);
+            Ejercitador.createCategoria(config.mod.simulador);
             sim.eventosTemario();
         },
 
@@ -177,7 +177,7 @@ var sim = function () {
 
         comenzarEntranamiento: function () {
 
-            var datosSim = ejer.getDataForm(sim.simulaciones);
+            var datosSim = Ejercitador.getDataForm(sim.simulaciones);
 
             if (datosSim.length == 0) {
                 Modal.show("Debe seleccionar las simulaciones que desea realizar.", "Aviso!!!");
@@ -368,7 +368,7 @@ var sim = function () {
                             index: index++,
                             id_pregunta: d[sim.sim.idsim],
                             enunciado: d[sim.sim.enunciado]
-                            //tipo: ejer.tipo_preg_list[dat[ejer.epreg.id_tipo_preg]]
+                            //tipo: Ejercitador.tipo_preg_list[dat[Ejercitador.epreg.id_tipo_preg]]
                         };
 
                         $.tmpl("item_ejer_min", de).appendTo($loadTarget);

@@ -1,0 +1,27 @@
+<div class="row full-height">
+    <div class="col-md-4 border-right-m order-2 order-md-1">
+        <h3 class="text-center" >Términos</h3>
+        <form name="form_bus_term" id="form_bus_term" method="post" >
+
+            <select  class="form-control" id="selecCateg">
+                <option value="" ><--Todos--></option>
+            </select>
+
+
+            <input name="termino" type="text"  id="glosario_buscar" value="Buscar..." size="27" class="form-control mt-2" >
+
+
+            <ul id="glosarioTerm" class="nav nav-pills mt-2"> </ul>
+
+        </form>
+    </div>
+    <div class="col-md-8 order-1 order-md-2 px-2" >
+        <h3 class="text-center" id="glosario_termino" >Descripci&oacute;n</h3>
+        <div id="glosario_centro" class="slide_opacity"></div>
+    </div>
+    <div class="cle"></div>
+</div>
+
+<script>
+    glosario.init();
+</script>

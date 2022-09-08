@@ -16,7 +16,7 @@ INSERT INTO estructura (id_elemento,posicion,id_padre,nombre,oculto) VALUES
 ('15','1','7','Pedagógica','1'), 
 ('16','2','7','Créditos','0'), 
 ('17','2','1','Valores doctrinales del libro','0'), 
-('18','3','1','Comentarios','0'), 
+('18','3','1','Biografía del autor y comentarios','0'), 
 ('19','4','1','Introducción','0'), 
 ('20','5','1','Prólogo','0'), 
 ('21','6','1','Agradecimientos','0'), 
@@ -109,7 +109,7 @@ INSERT INTO estructura (id_elemento,posicion,id_padre,nombre,oculto) VALUES
 ('112','22','1','Nombres del Padre y del Hijo','0'), 
 ('113','23','1','Ministerio Evangelístico Individual','0'), 
 ('114','25','1','Cálculos lógicos de fechas para acontecimientos bíblicos','0'), 
-('115','26','1','Bibliografías','0'), 
+('115','26','1','Bibliografía','0'), 
 ('118','0','1','Importante reseña gramatical','0'), 
 ('119','0','30','Introducción','0'), 
 ('120','4','59','Lección No. 36 Tercer mandamiento','0'), 
@@ -1703,30 +1703,28 @@ font-zize: 1.6rem;
 .hebraica{
 font-zize: 1.6rem;
 }
-
 h3, h4, h5 {
-    color: #000;
-    font-weight: bold;
+color: #000;
+font-weight: bold;
 }
 .indice{
-    max-width: 400px;
-    margin: 20px auto;
-   padding:4px
+max-width: 400px;
+margin: 20px auto;
+padding:4px
 }
 .indice .line{  
-    display:flex;
-    /* justify-content:space-between; */
+display:flex;
+/* justify-content:space-between; */
 }
 .indice .book{
-    white-space: pre;
+white-space: pre;
 }
-
 .indice .line-dotted{
-    width: 100%;
-    height: 5px;
-    display: inline-block;
-    margin: 10px 6px 0 6px;
-    border-bottom: 3px dotted;
+width: 100%;
+height: 5px;
+display: inline-block;
+margin: 10px 6px 0 6px;
+border-bottom: 3px dotted;
 }
 '), 
 ('nombre',''), 

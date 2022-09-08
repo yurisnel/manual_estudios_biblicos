@@ -1,5 +1,5 @@
 //$("#op_intervalo").css("display",'');
-var ejer = function () {
+var Ejercitador = function () {
 
     return {
         view: "model/ejercicio/index.html",
@@ -10,32 +10,39 @@ var ejer = function () {
         cuerpo_retro_list: new Array(), // retroalimentacion de los items(seleccion simple) indexados por id_cuerpo
         ejer_retro_list: new Array(),   // retroalimentacion de la pregunta indexados por idpreg =>tipoRetro
 
-        tipoRetro: {idpreg: 0, retro_correcto: 1, retro_parcial: 2, retro_incorrecto: 3, orientacion: 4},
-        epreg: {idpreg: 0, max_intento: 1, id_elemento: 2, seleccion: 3, enunciado: 4, id_tipo_preg: 5},
-        cuerpo: {idcuerpo: 0, id_pregunta: 1, text: 2, respuesta: 3, correcta: 4},
+        tipoRetro: { idpreg: 0, retro_correcto: 1, retro_parcial: 2, retro_incorrecto: 3, orientacion: 4 },
+        epreg: { idpreg: 0, max_intento: 1, id_elemento: 2, seleccion: 3, enunciado: 4, id_tipo_preg: 5 },
+        cuerpo: { idcuerpo: 0, id_pregunta: 1, text: 2, respuesta: 3, correcta: 4 },
         select: 0,
         total: 0,
 
-        init: function (targetLoad, sin_categorias) {
-            ejer.mytarget = targetLoad;
-            if (!targetLoad) {
-                ejer.mytarget = app.targetLoad;
+        init: function (targetLoad = false, sin_categorias = false) {
+
+            if (targetLoad) {
+                Ejercitador.mytarget = targetLoad;
+            } else {
+                Ejercitador.mytarget = app.targetLoad;
             }
 
-            var datosEjer = app.storage('datosEjer');
-            if ((datosEjer && datosEjer.length > 0) || sin_categorias) { // si hay ejercicios pendientes
+            var datosEjer = Array();
+            var temp = app.storage('id_ejer_list'); // ejercicio actual del entrenamiento
+            if (temp) {
+                datosEjer = temp.split(",");
+            }
 
-                if (ejer.ejer_pregunta.length == 0) {   // si no se han cargado los datos de los ejercicios
-                    ejer.loadData(ejer.postInit);
+            if (datosEjer.length || sin_categorias) { // si hay ejercicios pendientes
+
+                if (Ejercitador.ejer_pregunta.length == 0) {   // si no se han cargado los datos de los ejercicios
+                    Ejercitador.loadData(Ejercitador.postInit);
                 } else {
-                    ejer.postInit();
+                    Ejercitador.postInit();
                 }
             } else     // si se cargara las categorias de ejercicio(configuracion del ejercitador)
-            if (ejer.ejer_pregunta.length == 0) {     // si no se han cargado los datos de los ejercicios
-                ejer.loadData(ejer.createCategoria);
-            } else {
-                ejer.createCategoria();
-            }
+                if (Ejercitador.ejer_pregunta.length == 0) {     // si no se han cargado los datos de los ejercicios
+                    Ejercitador.loadData(Ejercitador.createCategoria);
+                } else {
+                    Ejercitador.createCategoria();
+                }
         },
 
 
@@ -56,10 +63,10 @@ var ejer = function () {
                 // resp = $.parseJSON(result.responseText);
 
                 $.each(resp, function (i, idat) {
-                    idcat = parseInt(idat[ejer.epreg.id_elemento]);
-                    idpreg = parseInt(idat[ejer.epreg.idpreg]);
-                    if (!ejer.ejer_pregunta[idcat]) {
-                        ejer.ejer_pregunta[idcat] = new Array();
+                    idcat = parseInt(idat[Ejercitador.epreg.id_elemento]);
+                    idpreg = parseInt(idat[Ejercitador.epreg.idpreg]);
+                    if (!Ejercitador.ejer_pregunta[idcat]) {
+                        Ejercitador.ejer_pregunta[idcat] = new Array();
                     }
                     if (app.nodeTree) {
                         if (!app.nodeTree[idcat].cantEjer) {
@@ -67,8 +74,8 @@ var ejer = function () {
                         }
                         app.nodeTree[idcat].cantEjer++;
                     }
-                    ejer.ejer_pregunta[idcat].push(idpreg);
-                    ejer.ejer_pregunta_list[idpreg] = idat;
+                    Ejercitador.ejer_pregunta[idcat].push(idpreg);
+                    Ejercitador.ejer_pregunta_list[idpreg] = idat;
                 });
                 ajax1.resolve();
             });
@@ -85,11 +92,11 @@ var ejer = function () {
             $.getJSON(app.urlData + '/ejer_cuerpo.dat', function (resp) {
 
                 $.each(resp, function (i, idat) {
-                    idpreg = parseInt(idat[ejer.cuerpo.id_pregunta]);
-                    if (!ejer.ejer_cuerpo_list[idpreg]) {
-                        ejer.ejer_cuerpo_list[idpreg] = new Array();
+                    idpreg = parseInt(idat[Ejercitador.cuerpo.id_pregunta]);
+                    if (!Ejercitador.ejer_cuerpo_list[idpreg]) {
+                        Ejercitador.ejer_cuerpo_list[idpreg] = new Array();
                     }
-                    ejer.ejer_cuerpo_list[idpreg].push(idat);
+                    Ejercitador.ejer_cuerpo_list[idpreg].push(idat);
                 });
 
                 ajax2.resolve();
@@ -100,7 +107,7 @@ var ejer = function () {
 
                 $.each(resp, function (i, idat) {
                     idtipo = parseInt(idat[0]);
-                    ejer.tipo_preg_list[idtipo] = idat[1];
+                    Ejercitador.tipo_preg_list[idtipo] = idat[1];
                 });
 
                 ajax3.resolve();
@@ -111,7 +118,7 @@ var ejer = function () {
 
                 $.each(resp, function (i, idat) {
                     idretro = parseInt(idat[0]);
-                    ejer.cuerpo_retro_list[idretro] = idat[1];
+                    Ejercitador.cuerpo_retro_list[idretro] = idat[1];
                 });
 
                 ajax4.resolve();
@@ -121,13 +128,8 @@ var ejer = function () {
             $.getJSON(app.urlData + '/ejer_retro.dat', function (resp) {
 
                 $.each(resp, function (i, idat) {
-                    var idpreg = parseInt(idat[ejer.tipoRetro.idpreg]);
-                    ejer.ejer_retro_list[idpreg] = idat;
-                    /*
-                     if (!ejer.ejer_retro_list[idpreg]) {
-                     ejer.ejer_retro_list[idpreg] = new Array();
-                     }
-                     ejer.ejer_retro_list[idpreg].push(idat);      */
+                    var idpreg = parseInt(idat[Ejercitador.tipoRetro.idpreg]);
+                    Ejercitador.ejer_retro_list[idpreg] = idat;                   
                 });
                 ajax5.resolve();
             });
@@ -169,15 +171,15 @@ var ejer = function () {
                     }
                 });
 
-                ejer.total = total;
-                $("#mostrar_total").html("Seleccionados " + ejer.select + " de: " + ejer.total);
+                Ejercitador.total = total;
+                $("#mostrar_total").html("Seleccionados " + Ejercitador.select + " de: " + Ejercitador.total);
 
-                ejer.eventosTemario();
+                Ejercitador.eventosTemario();
             }
         },
         showListadoEjercicios: function () {
 
-            Modal.show(ejer.getListadoEjercicios(), 'Selección de ejercicios para entrenar');
+            Modal.show(Ejercitador.getListadoEjercicios(), 'Selección de ejercicios para entrenar');
         },
         getListadoEjercicios: function () {
 
@@ -195,14 +197,14 @@ var ejer = function () {
                     };
 
                     $.tmpl("tplTema", d).appendTo($loadTarget);
-
-                    $.each(ejer.ejer_pregunta[d.id_elemento], function (i, pos) {
-                        dat = ejer.ejer_pregunta_list[pos];
+                    var index = 0;
+                    $.each(Ejercitador.ejer_pregunta[d.id_elemento], function (i, pos) {
+                        dat = Ejercitador.ejer_pregunta_list[pos];
                         data = {
                             index: index++,
-                            id_pregunta: dat[ejer.epreg.idpreg],
-                            enunciado: dat[ejer.epreg.enunciado],
-                            tipo: ejer.tipo_preg_list[dat[ejer.epreg.id_tipo_preg]]
+                            id_pregunta: dat[Ejercitador.epreg.idpreg],
+                            enunciado: dat[Ejercitador.epreg.enunciado],
+                            tipo: Ejercitador.tipo_preg_list[dat[Ejercitador.epreg.id_tipo_preg]]
                         };
 
                         $.tmpl("item_ejer_min", data).appendTo($loadTarget);
@@ -214,7 +216,7 @@ var ejer = function () {
         },
 
         selectEjercicios: function () {
-            $show = Modal.show(ejer.getListadoEjercicios(), 'Selección de ejercicios para entrenar', function (e) {
+            $show = Modal.show(Ejercitador.getListadoEjercicios(), 'Selección de ejercicios para entrenar', function (e) {
                 $show.modal('hide');
                 $list = $("#lista_select");
                 $list.empty();
@@ -229,35 +231,37 @@ var ejer = function () {
 
         },
 
-        terminar: function (body, ver) {
+        terminarModal: function (body, ver) {
             var title = 'Informaci&oacute;n';
             if (!body)
                 body = 'Est&aacute; seguro que desea salir del Entrenamiento.';
 
             Modal.show(body, title, function () {
-
-                if (ver == 'estadisticas') {
-                    ejerAccion.estadisticas();
-                } else if (!$('#btnSimula').hasClass('active')) {
-
-                    ejer.mytarget.load('model/ejercicio/index.html', {}, function () {
-                        ejer.resetCookie();
-                        ejer.init();
-                    });
-                }
+                Ejercitador.terminar(ver);
             });
         },
+        terminar: function (ver) {
+
+            if (ver == 'estadisticas') {
+                ejerAccion.estadisticas();
+            } else if (!$('#btnSimula').hasClass('active')) {
+                Ejercitador.resetCookie();
+                $(Ejercitador.mytarget).load('model/ejercicio/index.html', function () {
+                    Ejercitador.init(Ejercitador.mytarget);              
+                });
+            }
+        },
         resetCookie: function () {
-            var ejer = app.storage('datosEjer');
-            if (ejer) {
-                ejer = ejer.split(',');
-                for (i = 0; i < ejer.length; i++) {
+            var temp = app.storage('id_ejer_list');
+            if (temp) {
+                ejer = temp.split(',');
+                for (i = 0; i < Ejercitador.length; i++) {
                     idPreg = ejer[i];
                     app.storageRemove('respuesta_' + idPreg);
                 }
             }
             // app.storageRemove('respuestas', null);
-            app.storageRemove('datosEjer');
+            app.storageRemove('id_ejer_list');
             app.storageRemove('posicion');
             app.storageRemove('escala');
         },
@@ -275,41 +279,41 @@ var ejer = function () {
 
         eventosTemario: function () {
 
-            $('#ver', ejer.mytarget).click(function (e) {
+            $('#ver', Ejercitador.mytarget).click(function (e) {
 
                 e.preventDefault();
                 var categorias = getInputChecked($(':checkbox'));
                 if (categorias.length) {
-                    ejer.showListadoEjercicios();
+                    Ejercitador.showListadoEjercicios();
                 } else {
                     Modal.show('Debe seleccionar al menos uno de los temas que est&aacute;n disponibles en la lista.');
                 }
             });
 
-            $('#btnSelec', ejer.mytarget).click(function () {
+            $('#btnSelec', Ejercitador.mytarget).click(function () {
                 var inputs = getInputChecked($(':checkbox'));
                 if (inputs.length) {
-                    ejer.selectEjercicios('Seleccionar los ejercicios que desea incluir en el entrenamiento.');
+                    Ejercitador.selectEjercicios('Seleccionar los ejercicios que desea incluir en el entrenamiento.');
                 } else Modal.show('Debe seleccionar al menos uno de los temas que est&aacute;n disponibles en la lista.');
             });
 
-            $('#btn_comenzar', ejer.mytarget).click(ejer.comenzarEntranamiento);
+            $('#btn_comenzar', Ejercitador.mytarget).click(Ejercitador.comenzarEntranamiento);
 
 
             //Para mostrar los distintos tipos de opciones
-            $('#intervalo', ejer.mytarget).click(function (evento) {
+            $('#intervalo', Ejercitador.mytarget).click(function (evento) {
 
                 $("#op_intervalo").hide().delay(200).slideDown();
                 $("#op_asignados").fadeOut();
             });
 
-            $('#asignado', ejer.mytarget).click(function (evento) {
+            $('#asignado', Ejercitador.mytarget).click(function (evento) {
                 $("#op_asignados").hide().delay(200).slideDown();
                 $("#op_intervalo").fadeOut();
             });
 
             //Para Mostrar la cantidad de elementos al azar
-            $('#azar1', ejer.mytarget).click(function (evento) {
+            $('#azar1', Ejercitador.mytarget).click(function (evento) {
                 $("#int_azar").show('slow');
                 var ini = $('#inicio').attr('value');
                 var fin = $('#fin').attr('value');
@@ -317,21 +321,21 @@ var ejer = function () {
                 $('#intervalo_cant').attr('value', total);
             });
 
-            $('#secuencial1', ejer.mytarget).click(function (evento) {
+            $('#secuencial1', Ejercitador.mytarget).click(function (evento) {
                 $("#int_azar").hide();
             });
 
-            $('#azar2', ejer.mytarget).click(function (evento) {
+            $('#azar2', Ejercitador.mytarget).click(function (evento) {
                 $("#asig_azar").show('slow');
                 var total1 = $('#lista_select').find('option').length;
                 $('#asig_cant').attr('value', total1);
             });
-            $('#secuencial2', ejer.mytarget).click(function (evento) {
+            $('#secuencial2', Ejercitador.mytarget).click(function (evento) {
                 $("#asig_azar").hide();
             });
 
             //evento clic para todos los checkbox
-            $("#div_categoria :checkbox", ejer.mytarget).click(function (e) {
+            $("#div_categoria :checkbox", Ejercitador.mytarget).click(function (e) {
                 if (e.currentTarget.id == 'todos') {
                     $("#div_categoria :checkbox").prop('checked', e.currentTarget.checked);
                 }
@@ -354,8 +358,8 @@ var ejer = function () {
                     $('#inicio').attr('value', '');
                     $('#fin').attr('value', '');
                 }
-                ejer.select = suma;
-                $('#mostrar_total').html('Seleccionados: ' + ejer.select + " de " + ejer.total);
+                Ejercitador.select = suma;
+                $('#mostrar_total').html('Seleccionados: ' + Ejercitador.select + " de " + Ejercitador.total);
                 if (suma != 0) {
                     $('#inicio').attr('value', 1);
                     $('#fin').attr('value', suma);
@@ -366,18 +370,18 @@ var ejer = function () {
 
         comenzarEntranamiento: function () {
 
-            var datos = ejer.getDataForm();
+            var datos = Ejercitador.getDataForm();
 
             if (datos.length == 0) {
                 Modal.show("Debe seleccionar los ejercicios que desea ejercitar.");
             } else {
-                ejer.resetCookie();
+                Ejercitador.resetCookie();
                 // Guardando datos en las cookies y sacando los datos para la primera pregunta.
-                app.storage('datosEjer', datos);
+                app.storage('id_ejer_list', datos);
                 app.storage('posicion', "0");
                 app.storage('escala', $('#escalas :radio[checked]').val());
 
-                ejer.loadEjercicioPos(0);
+                Ejercitador.loadEjercicioPos(0);
             }
         },
 
@@ -432,7 +436,7 @@ var ejer = function () {
             }
 
             if (resp.revisado == 1) {
-                ejer.selec_respuesta("tu_respuesta", idEjer, targetLoad);
+                Ejercitador.selec_respuesta("tu_respuesta", idEjer, targetLoad);
             }
 
             $('span.error_field', targetLoad).hide();
@@ -446,7 +450,7 @@ var ejer = function () {
                 var $el = $(e.currentTarget);
                 // if (!e.isDefaultPrevented()) {
                 var action = $el.data("action");
-                ejer.navegation(action);
+                Ejercitador.navegation(action);
                 //}
             });
 
@@ -459,17 +463,17 @@ var ejer = function () {
 
                 switch (action) {
                     case "orient_preg":
-                        var ejer_datos = ejer.getEjercicio(idEjer);
+                        var ejer_datos = Ejercitador.getEjercicio(idEjer);
                         Modal.show(ejer_datos.orientacion, 'Orientaci&oacute;n de la pregunta');
                         break;
                     case "revisar":
                         ejerAccion.revisado(idEjer, targetLoad);
                         break;
                     case "resp_correcta":
-                        ejer.selec_respuesta(action, idEjer, targetLoad);
+                        Ejercitador.selec_respuesta(action, idEjer, targetLoad);
                         break;
                     case "tu_respuesta":
-                        ejer.selec_respuesta(action, idEjer, targetLoad);
+                        Ejercitador.selec_respuesta(action, idEjer, targetLoad);
                         break;
                     case "terminar":
                         ejerAccion.verificar();
@@ -478,7 +482,7 @@ var ejer = function () {
                         ejerAccion.verificar();
                         break;
                     case "salir":
-                        ejer.terminar('Est&aacute; seguro que desea salir del entrenamiento.', 'salir');
+                        Ejercitador.terminar("salir");
                         break;
                     case "send":
                         var link = "mailto:ybolmey@gmail.com"
@@ -499,7 +503,7 @@ var ejer = function () {
         },
         navegation: function (action) {// TERMINADA
             var pos = parseInt(app.storage('posicion'));
-            var datEjer = app.storage('datosEjer').split(',');
+            var datEjer = app.storage('id_ejer_list').split(',');
             ejerAccion.salvar_session(datEjer[pos]);
 
             switch (action) {
@@ -521,40 +525,44 @@ var ejer = function () {
                     break;
 
                 case 'up':
-                    ejer.terminar('Informaci&oacute;n al usuario', 'Est&aacute; seguro que desea salir del Entrenamiento.', 'salir');
+                    Ejercitador.terminarModal('Est&aacute; seguro que desea salir del Entrenamiento.', 'salir');
                     return;
             }
-            if(datEjer[pos]){
+            if (datEjer[pos]) {
                 app.storage('posicion', pos);
-                ejer.loadEjercicioPos(pos);
+                Ejercitador.loadEjercicioPos(pos);
             }
 
         },
 
         postInit: function () {
-            var pos = parseInt(app.storage('posicion'));
-            ejer.loadEjercicioPos(pos);
+            if (app.storage('posicion')){
+                var pos = parseInt(app.storage('posicion'));
+            }else{
+                pos = 0;
+            }
+            Ejercitador.loadEjercicioPos(pos);
         },
 
         loadEjercicioPos: function (pos) {
-            var datEjer = app.storage('datosEjer');
-            if (datEjer) {
-                datEjer = datEjer.split(',');
+            var temp = app.storage('id_ejer_list');
+            if (temp) {
+                var datEjer = temp.split(',');
                 var idEjer = datEjer[pos];// para coger el id de la pregunta
                 if (!idEjer) {
                     // alert("No existe el ejercicio !!");
                     return;
                 }
-                var ejer_datos = ejer.getEjercicio(idEjer);
+                var ejer_datos = Ejercitador.getEjercicio(idEjer);
                 var url = app.urlprod + '/ejercicio/' + idEjer + ".html";
                 $.get(url, function (resp, textStatus, result) {
                     ejer_datos.enunciado = result.responseText;
                     ejer_datos.pager = (pos + 1) + '/' + helper.countNoEmpty(datEjer);
-                    ejer_datos.pagerSize = config.datosProd.pager_size?config.datosProd.pager_size: "full"; //full or min
+                    ejer_datos.pagerSize = config.datosProd.pager_size ? config.datosProd.pager_size : "full"; //full or min
                     ejer_datos.fromModuleExternal = false;
-                    ejer.mytarget.html($.tmpl("interior_ejer", ejer_datos));
-                    ejer.eventosBtn(ejer.mytarget);
-                    ejer.updateView(idEjer, ejer.mytarget);
+                    Ejercitador.mytarget.html($.tmpl("interior_ejer", ejer_datos));
+                    Ejercitador.eventosBtn(Ejercitador.mytarget);
+                    Ejercitador.updateView(idEjer, Ejercitador.mytarget);
                     window.scrollTo(0, 0);
                 });
 
@@ -563,25 +571,25 @@ var ejer = function () {
         // mostrar ejericio desde modulo exterior asincronico por si hay que cargar los ejericios
         loadEjercicioIdFromExternalAsc: function (idEjer, target, callBack) {
 
-            if (ejer.ejer_pregunta_list.length > 0) {
-                ejer.loadEjercicioIdFromExternalAux(idEjer, target, callBack);
+            if (Ejercitador.ejer_pregunta_list.length > 0) {
+                Ejercitador.loadEjercicioIdFromExternalAux(idEjer, target, callBack);
             } else {
-                ejer.loadData(function () {
-                    ejer.loadEjercicioIdFromExternalAux(idEjer, target, callBack);
+                Ejercitador.loadData(function () {
+                    Ejercitador.loadEjercicioIdFromExternalAux(idEjer, target, callBack);
                 })
             }
         },
 
         loadEjercicioIdFromExternalAux: function (idEjer, target, callBack) {
-            var ejer_datos = ejer.getEjercicio(idEjer);
+            var ejer_datos = Ejercitador.getEjercicio(idEjer);
             var url = app.urlprod + '/ejercicio/' + idEjer + ".html";
             $.get(url, function (resp, textStatus, result) {
                 ejer_datos.enunciado = result.responseText;
 
                 ejer_datos.fromModuleExternal = true;
                 target.html($.tmpl("interior_ejer", ejer_datos));
-                ejer.eventosBtn(target);
-                ejer.updateView(idEjer, target);
+                Ejercitador.eventosBtn(target);
+                Ejercitador.updateView(idEjer, target);
 
                 if (callBack) callBack();
             });
@@ -592,32 +600,32 @@ var ejer = function () {
             var ownDeferred = $.Deferred();
             var url = app.urlprod + '/ejercicio/' + idEjer + ".html";
             $.get(url, function (resp, textStatus, result) {
-                var ejercicio = ejer.getEjercicio(idEjer);
+                var ejercicio = Ejercitador.getEjercicio(idEjer);
                 ejercicio.enunciado = result.responseText;
                 return ownDeferred.resolve(ejercicio);
             });
             return ownDeferred.promise();
         },
         getEjercicio: function (idEjer) {
-            var e = ejer.ejer_pregunta_list[idEjer];
-            var idcat = e[ejer.epreg.id_elemento];
+            var e = Ejercitador.ejer_pregunta_list[idEjer];
+            var idcat = e[Ejercitador.epreg.id_elemento];
             var dat = {
                 categoria: app.nodeList[app.nodeTree[idcat].pos][app.node.name],
                 idPreg: parseInt(idEjer),
-                tipoPreg: parseInt(e[ejer.epreg.id_tipo_preg]),
-                enunciado: e[ejer.epreg.enunciado],
-                orientacion: ejer.ejer_retro_list[idEjer][ejer.tipoRetro.orientacion],
+                tipoPreg: parseInt(e[Ejercitador.epreg.id_tipo_preg]),
+                enunciado: e[Ejercitador.epreg.enunciado],
+                orientacion: Ejercitador.ejer_retro_list[idEjer][Ejercitador.tipoRetro.orientacion],
                 items: [],
                 itemsLeft: [],
                 itemsRigth: [],
             };
 
-            var items = ejer.ejer_cuerpo_list[idEjer], it;
+            var items = Ejercitador.ejer_cuerpo_list[idEjer], it;
             $.each(items, function (i, idat) {
                 it = {
-                    id: idat[ejer.cuerpo.idcuerpo],
-                    text: idat[ejer.cuerpo.text],
-                    respuesta: idat[ejer.cuerpo.respuesta]
+                    id: idat[Ejercitador.cuerpo.idcuerpo],
+                    text: idat[Ejercitador.cuerpo.text],
+                    respuesta: idat[Ejercitador.cuerpo.respuesta]
                 };
 
                 if (dat.tipoPreg == config.ejercicio.completa) {
@@ -640,9 +648,9 @@ var ejer = function () {
 
         selec_respuesta: function (action, idEjer, targetLoad) {
 
-            var tipoPreg = ejer.ejer_pregunta_list[idEjer][ejer.epreg.id_tipo_preg];
+            var tipoPreg = Ejercitador.ejer_pregunta_list[idEjer][Ejercitador.epreg.id_tipo_preg];
 
-            var datos_cuerpo = ejer.ejer_cuerpo_list[idEjer];
+            var datos_cuerpo = Ejercitador.ejer_cuerpo_list[idEjer];
             var array_resp = new Array();
 
             //$('.'+seleccion).addClass(seleccion+':hover');
@@ -678,7 +686,7 @@ var ejer = function () {
                 } else if (tipoPreg == config.ejercicio.identifica) {//Identificar Respuesta Correcta
 
                     for (i = 0; i < datos_cuerpo.length; i++) {
-                        txt = datos_cuerpo[i][ejer.cuerpo.respuesta];
+                        txt = datos_cuerpo[i][Ejercitador.cuerpo.respuesta];
                         array_resp = splitRespuestas(txt);
                     }
                 }
@@ -687,11 +695,10 @@ var ejer = function () {
                 var id = 0;
                 var respuesta = JSON.parse(app.storage('respuesta_' + idEjer));
                 var pos = parseInt(app.storage('posicion'));
-                var tmp = app.storage('datosEjer');
-                if (tmp) {
-                    tmp = tmp.split(',');
-                    id = tmp[pos];
-                    idEjer = id;
+                var temp = app.storage('id_ejer_list');
+                if (temp) {
+                    var datosEjer = temp.split(',');
+                    idEjer = datosEjer[pos];
                 }
                 // if (!id) id = idEjer;
 
@@ -728,12 +735,12 @@ var ejer = function () {
                     $('select[name*=' + i + ']', campos_respuestas).val(data);
                 } else if (tipoPreg == config.ejercicio.completa) {
                     $(Arraytipo5[i]).val(data);
-                }else if (tipoPreg == config.ejercicio.identifica) {
+                } else if (tipoPreg == config.ejercicio.identifica) {
                     var selectedValue = data;
                     var $options = $("option", Arraytipo5[i]);
-                    for(j=0; j<$options.length; j++){
+                    for (j = 0; j < $options.length; j++) {
                         $el = $($options[j]);
-                        if(helper.trim($el.val()) == selectedValue){
+                        if (helper.trim($el.val()) == selectedValue) {
                             $el.prop("selected", true)
                         }
                     };
@@ -744,24 +751,24 @@ var ejer = function () {
         // para mostrar ejercicios en ventana popup
 
         showEjercicio: function (idEjer) {
-            if (ejer.ejer_pregunta_list.length > 0) {
-                ejer.showEjercicioAux(idEjer);
+            if (Ejercitador.ejer_pregunta_list.length > 0) {
+                Ejercitador.showEjercicioAux(idEjer);
             } else {
-                ejer.loadData(function () {
-                    ejer.showEjercicioAux(idEjer);
+                Ejercitador.loadData(function () {
+                    Ejercitador.showEjercicioAux(idEjer);
                 })
             }
         },
         showEjercicioAux: function (idEjer) {
-            var ejer_datos = ejer.getEjercicio(idEjer);
+            var ejer_datos = Ejercitador.getEjercicio(idEjer);
             var url = app.urlprod + '/ejercicio/' + idEjer + ".html";
             $.get(url, function (resp, textStatus, result) {
                 ejer_datos.enunciado = result.responseText;
                 ejer_datos.fromModuleExternal = true;
                 var html = $.tmpl("interior_ejer", ejer_datos);
                 var modal = Modal.show(html, 'Ejercicio');
-                ejer.eventosBtn(modal);
-                ejer.updateView(idEjer, modal);
+                Ejercitador.eventosBtn(modal);
+                Ejercitador.updateView(idEjer, modal);
             });
         },
 
@@ -771,13 +778,13 @@ var ejer = function () {
             if (form.opcion[0].checked == true) {
                 // Para cuando la opcion que se escogio es para un intervalo con seleccion al azar.
                 if (form.interv_modo[1].checked == true) {
-                    datos = ejer.getEjerSelec(form, itemsList);
+                    datos = Ejercitador.getEjerSelec(form, itemsList);
                     datos = helper.shuffle(datos);// Desordena un Arreglo
                     datos = helper.chunks(datos, form.intervalo_cant.value);
                     datos = datos[0];
                 } else // Para cuando la opcion que se escogio es para un intervalo secuencial.
                 {
-                    datos = ejer.getEjerSelec(form, itemsList);
+                    datos = Ejercitador.getEjerSelec(form, itemsList);
                 }
             }// fin de la parte de intervalos
             else {// INICIO DE ASIGNADOS Para cuando la opcion que se escogio es para un Asignado al azar.
@@ -795,7 +802,7 @@ var ejer = function () {
         },
         getEjerSelec: function (form, itemsList) {
             if (!itemsList)
-                itemsList = ejer.ejer_pregunta;
+                itemsList = Ejercitador.ejer_pregunta;
 
             var ini = parseInt(form.inicio.value);
             var fin = parseInt(form.fin.value);
@@ -812,7 +819,7 @@ var ejer = function () {
 
             $.each(listaselect, function (pos, op) {
                 if (op.checked == true) {
-                    // list = ejer.ejer_pregunta[op.value];
+                    // list = Ejercitador.ejer_pregunta[op.value];
                     var list = itemsList[op.value];
                     for (var p in list) {
                         var idPreg = list[p];

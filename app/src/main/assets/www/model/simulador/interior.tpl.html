@@ -1,0 +1,41 @@
+<div class="cardNo ejercicio" data-id="${id_esc}">
+    <div class="card-body">
+        <h4 class="card-title text-right">${categoria}</h4>
+        <div class="card-text alert alert-primary">{{html enunciado}}</div>
+        <div class="card-text mt-4">{{html inf_escena}}</div>
+    </div>
+    <form id="campos_respuestas" name="campos_respuestas" method="post" action="" class="form-inline">
+        <div class="container-fluid">
+            <ul class="list-group list-group-flush">
+                {{each(i,d) items}}
+                <li class="list-group-item">
+
+                    <label>
+                        <input type="checkbox" name="valores[]" value="${d.id}" class="form-control"/>&nbsp;
+                        ${d.text}
+                    </label>
+
+                </li>
+                {{/each}}
+            </ul>
+
+        </div>
+    </form>
+
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-6">
+                {{tmpl "#paginator"}}
+            </div>
+            <div class="col-sm-6 text-right" id="btns_comp">
+                <a href="#" class="btn btn-danger" id="terminar" role="button"><i class="fa fa-close"></i> Terminar</a>
+                <a href="#" class="btn btn-success" id="revisar" role="button"><i class="fa fa-check"></i> Continuar</a>
+
+                <a href="#" class="btn btn-primary" id="orient_preg" role="button" title="Orientación de la pregunta"><i
+                        class="fa fa-question-circle"></i></a>
+            </div>
+        </div>
+
+    </div>
+</div>

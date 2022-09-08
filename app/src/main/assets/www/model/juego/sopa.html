@@ -1,0 +1,65 @@
+<html>
+<head>
+    <title>Juego Sopa de Palabras</title>
+
+    <link rel="stylesheet" type="text/css" href="../../web/css/sopa.css">
+
+</head>
+<body>
+
+<div id="fade" class="overlay"></div>
+<div id="lightSopa" class="modalS">
+    <div id="select_sopa">
+        <div id="nivel_1_S" onclick="nssopa.entrarNivel(1)"></div>
+        <br/>
+        <div id="nivel_2_S" onclick="nssopa.entrarNivel(2)"></div>
+        <br/>
+        <div id="nivel_3_S" onclick="nssopa.entrarNivel(3)"></div>
+    </div>
+    </center></div>
+<div id="lightP" class="modalS" onclick="nssopa.comprobar(1)">
+</div>
+<div id="lightG" class="modalS" onclick="nssopa.continuar()">
+</div>
+<div id="palabras" class="modalP" onclick="nssopa.estadisticas()">
+    <div id="contenido_palabra">1</div>
+</div>
+<div id="lightEstadist" class="modalE">
+    <div id="est_gan"></div>
+    <div id="est_perd"></div>
+    <div id="est_efect"></div>
+    <div id="ver_palabra"></div>
+    <div id="ver_palabraC"></div>
+</div>
+<div id="sopa_fondo">
+    <div class="area_sup">
+        <div id="cerrar"></div>
+        <div id="audio"></div>
+    </div>
+    <div id="sopa_pizarra">
+        <div id="contenido_pizarra">
+        </div>
+        <div id="contenido_pizarra1">
+        </div>
+    </div>
+    <div id="sopa_pizarra1">
+        <div id="contenido_pizarra2"></div>
+    </div>
+    <div id="reloj">
+        <div id="imag_reloj"></div>
+        <div id="contenido"></div>
+    </div>
+    <div class="area_inf">
+        <div id="comensar"></div>
+        <div id="comprobar" onclick="nssopa.comprobar(2)"></div>
+    </div>
+    <div id="sopa"></div>
+    <div id="sopa_nivel"></div>
+</div>
+
+<script type='text/javascript' src='../../web/libs/jquery/dist/jquery.min.js'></script>
+<script type='text/javascript' src='../../web/js/juego.js'></script>
+<script type='text/javascript' src='../../web/js/sopa.js'></script>
+
+</body>
+</html>

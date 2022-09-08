@@ -1,0 +1,126 @@
+<div class="cardNo ejercicio px-lg-4 px-md-3" data-id="${idPreg}" data-type="${tipoPreg}">
+    <div class="card-bodyNo">
+        <h4 class="card-title text-right">${categoria}</h4>
+        <div class="card-text alert alert-primary">{{html enunciado}}</div>
+    </div>
+    <form id="campos_respuestas" name="campos_respuestas" method="post" action="" class="form-inline">
+        <div style="width: 100%; margin-top: 6px">
+            {{if tipoPreg == config.ejercicio.abierta}}
+
+            <textarea name="respuesta"  cols="45" rows="5"
+                      style="width:100%;"></textarea>
+            {{/if}}
+
+            {{if tipoPreg == config.ejercicio.relaciona}}
+
+            <div class="row">
+                <div class="col-md-6 border-top">
+                    {{each(i,d) itemsLeft}}
+                    <div class="item-rel">
+                        ${i +1 } . ${d.text}
+                    </div>
+                    {{/each}}
+                </div>
+
+                <div class="col-md-6 border-top">
+                    <hr class="bg-success d-lg-none d-md-none">
+                    {{each(i,d) itemsRigth}}
+                    <div class="item-rel">
+                        <select name="valores[${d.id}]" class="form-control" data-id="${d.id}">
+                            <option value=""></option>
+                            {{each(j,n) itemsLeft}}
+                            <option value="${j+1}">${j+1}</option>
+                            {{/each}}
+                        </select>
+                        ${d.text}
+                    </div>
+
+                    {{/each}}
+                </div>
+
+            </div>
+
+            {{else}}
+            <ul class="list-group list-group-flush">
+                {{each(i,d) items}}
+                <li class="list-group-item">
+
+                    {{if tipoPreg == config.ejercicio.simple}}
+                    <label>
+                        <input type="radio" name="valores" value="${d.id}" class="form-control" data-id="${d.id}"/>&nbsp;
+                        <span class="pl-2">${d.text}</span>
+                    </label>
+                    {{/if}}
+
+                    {{if tipoPreg == config.ejercicio.multiple}}
+                    <label>
+                        <input type="checkbox" name="valores[]" value="${d.id}" class="form-control" data-id="${d.id}"/>&nbsp;
+                        <span class="pl-2">${d.text}</span>
+                    </label>
+                    {{/if}}
+
+                    {{if tipoPreg == config.ejercicio.intriga}}
+                    <select name="valores[${d.id}]" class="form-control" data-id="${d.id}">
+                        <option>&nbsp;</option>
+                        <option value="V">V</option>
+                        <option value="F">F</option>
+                    </select>
+                    ${d.text}
+                    {{/if}}
+
+                    {{if tipoPreg == config.ejercicio.ordena}}
+                    <select name="valores[${d.id}]" class="form-control" data-id="${d.id}">
+                        <option value=""></option>
+                        {{each(j,n) items}}
+                        <option value="${j+1}">${j+1}</option>
+                        {{/each}}
+                    </select>
+                    ${d.text}
+                    {{/if}}
+
+                    {{if tipoPreg == config.ejercicio.identifica}}
+                        {{html d.text }}
+                    {{/if}}
+
+                    {{if tipoPreg == config.ejercicio.completa}}
+                        {{html d.text }}
+                    {{/if}}
+
+                </li>
+                {{/each}}
+            </ul>
+            {{/if}}
+        </div>
+    </form>
+
+
+    <div class="card-body">
+        {{if !fromModuleExternal}}
+        <div class="row">
+            <div class="col-sm-6">
+                {{tmpl "#paginator"}}
+            </div>
+            <div class="col-sm-6 text-right btns_comp">
+                <a href="#" class="btn btn-info" data-action="resultado" role="button"><i class="fa fa-close"></i> Resuldados</a>
+                <a href="#" class="btn btn-danger" data-action="terminar" role="button"><i class="fa fa-close"></i> Terminar</a>
+                <a href="#" class="btn btn-success" data-action="revisar" role="button"><i class="fa fa-check"></i> Revisar</a>
+                <a href="#" class="btn btn-dark" data-action="tu_respuesta" role="button"><i class="fa fa-check"></i> T&uacute; respuesta</a>
+                <a href="#" class="btn btn-success" data-action="resp_correcta" role="button"><i class="fa fa-check"></i>
+                    Respuesta correcta</a>
+                <a href="#" class="btn btn-primary" data-action="orient_preg" role="button" title="Orientación de la pregunta"><i
+                        class="fa fa-question-circle"></i></a>
+            </div>
+        </div>
+        {{else}}
+        <div class="text-right btns_comp" >
+            <a href="#" class="btn btn-success" data-action="revisar" role="button"><i class="fa fa-check"></i> Revisar</a>
+            <a href="#" class="btn btn-dark" data-action="tu_respuesta" role="button"><i class="fa fa-check"></i> T&uacute; respuesta</a>
+            <a href="#" class="btn btn-success" data-action="resp_correcta" role="button"><i class="fa fa-check"></i>
+                Respuesta correcta</a>
+            <a href="#" class="btn btn-primary" data-action="orient_preg" role="button" title="Orientación de la pregunta"><i
+                    class="fa fa-question-circle"></i></a>
+        </div>
+        {{/if}}
+    </div>
+
+</div>

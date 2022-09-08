@@ -10,7 +10,7 @@ var ejerAccion = function () {
 
         salvar_session: function (idEjer, campos_respuestas) {// TERMINADA
 
-            var tipoPreg = ejer.ejer_pregunta_list[idEjer][ejer.epreg.id_tipo_preg];
+            var tipoPreg = Ejercitador.ejer_pregunta_list[idEjer][Ejercitador.epreg.id_tipo_preg];
 
             var respuesta = JSON.parse(app.storage('respuesta_' + idEjer));
             if (!respuesta) {
@@ -51,7 +51,7 @@ var ejerAccion = function () {
                     });
                 }
 
-                if (respuesta) {
+                if (!$.isEmptyObject(respuesta.items) || respuesta.value) {
                     respuesta = JSON.stringify(respuesta);
                     app.storage('respuesta_' + idEjer, respuesta);
                     return true;
@@ -69,19 +69,19 @@ var ejerAccion = function () {
 
             var putdata = ejerAccion.salvar_session(idEjer, campos_respuestas);
             if (!putdata) {
-                Modal.show("Debe responder alguna pregunta.", "Alerta!");
+                Modal.show("Por favor indique su respuesta.", "Alerta!");
                 return;
             }
-            //datEjer = app.storage('datosEjer').split(',');
+            //datEjer = app.storage('id_ejer_list').split(',');
             //idEjer = datEjer[pos];// para coger el id de la pregunta
-            tipoPreg = ejer.ejer_pregunta_list[idEjer][ejer.epreg.id_tipo_preg];
+            tipoPreg = Ejercitador.ejer_pregunta_list[idEjer][Ejercitador.epreg.id_tipo_preg];
 
-            datos = ejer.ejer_pregunta_list[idEjer];
-            datos_cuerpo = ejer.ejer_cuerpo_list[idEjer];
+            datos = Ejercitador.ejer_pregunta_list[idEjer];
+            datos_cuerpo = Ejercitador.ejer_cuerpo_list[idEjer];
             // answer = ejerAccion.getRespuestas(idEjer);
 
             respuesta = JSON.parse(app.storage('respuesta_' + idEjer));
-            max_intento = datos[ejer.epreg.max_intento];
+            max_intento = datos[Ejercitador.epreg.max_intento];
 
             if (respuesta.intento && respuesta.intento < max_intento) {
                 respuesta.intento = respuesta.intento + 1; // Aumentar en uno el intento.
@@ -97,10 +97,10 @@ var ejerAccion = function () {
             switch (parseInt(tipoPreg)) {
                 case  config.ejercicio.simple: {// Seleccion Simple
                     for (i = 0; i < datos_cuerpo.length; i++) {
-                        if (!datos_cuerpo[i][ejer.cuerpo.correcta])
-                            array_resp[datos_cuerpo[i][ejer.cuerpo.idcuerpo]] = 0;
+                        if (!datos_cuerpo[i][Ejercitador.cuerpo.correcta])
+                            array_resp[datos_cuerpo[i][Ejercitador.cuerpo.idcuerpo]] = 0;
                         else
-                            array_resp[datos_cuerpo[i][ejer.cuerpo.idcuerpo]] = parseInt(datos_cuerpo[i][ejer.cuerpo.correcta]);
+                            array_resp[datos_cuerpo[i][Ejercitador.cuerpo.idcuerpo]] = parseInt(datos_cuerpo[i][Ejercitador.cuerpo.correcta]);
                     }
                     resp = helper.array_diff_assoc(mi_respuesta, array_resp);
                 }
@@ -111,11 +111,11 @@ var ejerAccion = function () {
                     num_incorrecta = 0;
                     num_correcta = 0;
                     for (i = 0; i < datos_cuerpo.length; i++) {
-                        if (!datos_cuerpo[i][ejer.cuerpo.correcta]) {
-                            array_resp[datos_cuerpo[i][ejer.cuerpo.idcuerpo]] = 0;
+                        if (!datos_cuerpo[i][Ejercitador.cuerpo.correcta]) {
+                            array_resp[datos_cuerpo[i][Ejercitador.cuerpo.idcuerpo]] = 0;
                             num_incorrecta++;
                         } else {
-                            array_resp[datos_cuerpo[i][ejer.cuerpo.idcuerpo]] = parseInt(datos_cuerpo[i][ejer.cuerpo.correcta]);
+                            array_resp[datos_cuerpo[i][Ejercitador.cuerpo.idcuerpo]] = parseInt(datos_cuerpo[i][Ejercitador.cuerpo.correcta]);
                             num_correcta++;
                         }
                     }
@@ -135,10 +135,10 @@ var ejerAccion = function () {
 
                 case config.ejercicio.intriga: {// Para cuando es verdadero o falso
                     for (i = 0; i < datos_cuerpo.length; i++) {
-                        if (!datos_cuerpo[i][ejer.cuerpo.correcta])
-                            array_resp[datos_cuerpo[i][ejer.cuerpo.idcuerpo]] = 'F';
+                        if (!datos_cuerpo[i][Ejercitador.cuerpo.correcta])
+                            array_resp[datos_cuerpo[i][Ejercitador.cuerpo.idcuerpo]] = 'F';
                         else
-                            array_resp[datos_cuerpo[i][ejer.cuerpo.idcuerpo]] = 'V';
+                            array_resp[datos_cuerpo[i][Ejercitador.cuerpo.idcuerpo]] = 'V';
                     }
                     resp = helper.array_diff_assoc(mi_respuesta, array_resp);
                 }
@@ -146,8 +146,8 @@ var ejerAccion = function () {
 
                 case config.ejercicio.relaciona: {// Relacionar Elementos.
                     for (i = 0; i < datos_cuerpo.length; i++) {
-                        if (datos_cuerpo[i][ejer.cuerpo.respuesta] != '')
-                            array_resp[datos_cuerpo[i][ejer.cuerpo.idcuerpo]] = datos_cuerpo[i][ejer.cuerpo.respuesta];
+                        if (datos_cuerpo[i][Ejercitador.cuerpo.respuesta] != '')
+                            array_resp[datos_cuerpo[i][Ejercitador.cuerpo.idcuerpo]] = datos_cuerpo[i][Ejercitador.cuerpo.respuesta];
                     }
                     resp = helper.array_diff_assoc(array_resp, mi_respuesta);
                 }
@@ -185,7 +185,7 @@ var ejerAccion = function () {
                     break;
                 case config.ejercicio.ordena: {// Ordenar segun corresponda
                     for (i = 0; i < datos_cuerpo.length; i++) {
-                        array_resp[datos_cuerpo[i][ejer.cuerpo.idcuerpo]] = datos_cuerpo[i][3];
+                        array_resp[datos_cuerpo[i][Ejercitador.cuerpo.idcuerpo]] = datos_cuerpo[i][3];
                     }
                     resp = helper.array_diff_assoc(array_resp, mi_respuesta);
                 }
@@ -193,7 +193,7 @@ var ejerAccion = function () {
                 case config.ejercicio.identifica: {// Identificar Respuesta Correcta
 
                     for (i = 0; i < datos_cuerpo.length; i++) {
-                        txt = datos_cuerpo[i][ejer.cuerpo.respuesta];
+                        txt = datos_cuerpo[i][Ejercitador.cuerpo.respuesta];
                         array_resp = splitRespuestas(txt);
                     }
                     /*
@@ -221,7 +221,7 @@ var ejerAccion = function () {
                 $.each(mi_respuesta, function (i, data) {
                     llave = i;
                 });
-                cuerpRetro = ejer.cuerpo_retro_list[llave];
+                cuerpRetro = Ejercitador.cuerpo_retro_list[llave];
             }
             if (tipoPreg == config.ejercicio.identifica) {
                 max_items = helper.countObject(respuesta['items']);
@@ -230,12 +230,12 @@ var ejerAccion = function () {
             countResp = helper.countObject(resp);
             countMiRespuesta = helper.countObject(mi_respuesta);
             countArrayResp = helper.countObject(array_resp);
-            retroalimentos = ejer.ejer_retro_list[idEjer];
+            retroalimentos = Ejercitador.ejer_retro_list[idEjer];
 
             if (countResp == 0) {// Estrictamente Correcto
                 if (tipoPreg == config.ejercicio.multiple) {
                     if (num_correcta == countMiRespuesta) {
-                        datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_correcto];
+                        datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_correcto];
                         respuesta['revisado'] = 1; // Usar esta estructura
                         // para marcar como revisado
                         respuesta['items_correctos'] = max_items;
@@ -244,19 +244,19 @@ var ejerAccion = function () {
                     } else {
                         qued_intentos = max_intento - respuesta['intento'];
                         if (qued_intentos != 0 && countMiRespuesta != 0) {
-                            datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_parcial] + '<br><p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
+                            datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_parcial] + '<br><p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
                             respuesta['correcta'] = 0;
                             respuesta['items_correctos'] = countMiRespuesta + num_incorrecta;
                             respuesta['items_incorrectos'] = num_correcta - countMiRespuesta;
 
                         } else if (countMiRespuesta == 0) {
-                            datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
+                            datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
                             respuesta['correcta'] = -1;
                             respuesta['items_correctos'] = 0;
                             respuesta['items_incorrectos'] = countArrayResp;
                             respuesta['revisado'] = 1;
                         } else {
-                            datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_parcial] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
+                            datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_parcial] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
                             respuesta['revisado'] = 1; // marcar como revisado.
                             respuesta['items_correctos'] = countMiRespuesta + num_incorrecta;
                             respuesta['items_incorrectos'] = num_correcta - countMiRespuesta;
@@ -266,11 +266,11 @@ var ejerAccion = function () {
                 } else {
                     if (tipoPreg == config.ejercicio.simple) {
                         if (cuerpRetro)
-                            datos['mostrar_retro'] = '<strong>Informaci&oacute;n sobre el item respondido:</strong> ' + cuerpRetro + '<strong>Informaci&oacute;n sobre la pregunta: </strong><br>' + retroalimentos[ejer.tipoRetro.retro_correcto];
+                            datos['mostrar_retro'] = '<strong>Informaci&oacute;n sobre el item respondido:</strong> ' + cuerpRetro + '<strong>Informaci&oacute;n sobre la pregunta: </strong><br>' + retroalimentos[Ejercitador.tipoRetro.retro_correcto];
                         else
-                            datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_correcto];
+                            datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_correcto];
                     } else
-                        datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_correcto];
+                        datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_correcto];
 
                     respuesta['revisado'] = 1; // Usar esta estructura para
                     // marcar como revisado
@@ -282,16 +282,16 @@ var ejerAccion = function () {
 
                 if (tipoPreg == config.ejercicio.simple) {
                     if (cuerpRetro)
-                        datos['mostrar_retro'] = '<strong>Informaci&oacute;n sobre el item respondido: </strong>' + cuerpRetro + '<strong>Informaci&oacute;n sobre la pregunta</strong><br>' + retroalimentos[ejer.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
+                        datos['mostrar_retro'] = '<strong>Informaci&oacute;n sobre el item respondido: </strong>' + cuerpRetro + '<strong>Informaci&oacute;n sobre la pregunta</strong><br>' + retroalimentos[Ejercitador.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
                     else {
-                        datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
+                        datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
                     }
                     respuesta['correcta'] = -1;
                     respuesta['revisado'] = 1; // marcar como revisado.
                     respuesta['items_correctos'] = 0;
                     respuesta['items_incorrectos'] = countArrayResp;
                 } else if (countResp == max_items) {
-                    datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
+                    datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
                     respuesta['correcta'] = -1;
                     respuesta['revisado'] = 1; // marcar como revisado.
                     respuesta['items_correctos'] = 0;
@@ -300,14 +300,14 @@ var ejerAccion = function () {
                     if (tipoPreg == config.ejercicio.multiple) {
                         resp1 = helper.array_diff_assoc(mi_respuesta, resp);
                         if (helper.countObject(resp1) === 0 /* && num_unos */) {
-                            datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
+                            datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
                             respuesta['correcta'] = -1;
                             respuesta['revisado'] = 1; // marcar como
                             // revisado.
                             respuesta['items_correctos'] = 0;
                             respuesta['items_incorrectos'] = max_items;
                         } else {
-                            datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_parcial] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
+                            datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_parcial] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
                             respuesta['correcta'] = 0;
                             respuesta['revisado'] = 1; // marcar como
                             // revisado.
@@ -315,7 +315,7 @@ var ejerAccion = function () {
                             respuesta['items_incorrectos'] = num_unos;
                         }
                     } else {
-                        datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_parcial] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
+                        datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_parcial] + '<br><p>Aviso: Este ha sido su &uacute;ltimo intento. Lo sentimos.</p>';
                         respuesta['correcta'] = 0;
                         respuesta['revisado'] = 1; // marcar como revisado.
                         respuesta['items_correctos'] = max_items - countResp;
@@ -326,25 +326,25 @@ var ejerAccion = function () {
                 qued_intentos = max_intento - respuesta['intento'];
                 if (tipoPreg == config.ejercicio.simple) {
                     if (cuerpRetro)
-                        datos['mostrar_retro'] = '<strong>Informaci&oacute;n sobre el item respondido:</strong>' + cuerpRetro + '<strong>Informaci&oacute;n sobre la pregunta: </strong><br>' + retroalimentos[ejer.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
+                        datos['mostrar_retro'] = '<strong>Informaci&oacute;n sobre el item respondido:</strong>' + cuerpRetro + '<strong>Informaci&oacute;n sobre la pregunta: </strong><br>' + retroalimentos[Ejercitador.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
                     else
-                        datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_incorrecto] + '<p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
+                        datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_incorrecto] + '<p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
                     respuesta['correcta'] = -1;
                 } else if (countResp == max_items) {
-                    datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
+                    datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
                     respuesta['correcta'] = -1;
                 } else {
                     if (tipoPreg == config.ejercicio.multiple) {
                         resp1 = helper.array_diff_assoc(mi_respuesta, resp);
                         if (helper.countObject(resp1) === 0) {
-                            datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
+                            datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_incorrecto] + '<br><p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
                             respuesta['correcta'] = -1;
                         } else {
-                            datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_parcial] + '<br><p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
+                            datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_parcial] + '<br><p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
                             respuesta['correcta'] = 0;
                         }
                     } else {
-                        datos['mostrar_retro'] = retroalimentos[ejer.tipoRetro.retro_parcial] + '<br><p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
+                        datos['mostrar_retro'] = retroalimentos[Ejercitador.tipoRetro.retro_parcial] + '<br><p>Aviso: Estimado usuario le queda(n) ' + qued_intentos + ' intento(s).</p>';
                         respuesta['correcta'] = 0;
                     }
                 }
@@ -366,7 +366,7 @@ var ejerAccion = function () {
             if (datos.revisado != 1)
                 campos_respuestas.resetForm();
 
-            ejer.updateView(idEjer, targetLoad);
+            Ejercitador.updateView(idEjer, targetLoad);
 
             Modal.show(datos.mostrar);
 
@@ -376,32 +376,34 @@ var ejerAccion = function () {
             else
                 error_field.hide();
 
-            if (ejer.funCallBack) // ejecutar despues que revise
-                ejer.funCallBack(respuesta['correcta']);
+            if (Ejercitador.funCallBack) // ejecutar despues que revise
+                Ejercitador.funCallBack(respuesta['correcta']);
 
 
-            ejer.funCallBack = 0;
+            Ejercitador.funCallBack = 0;
 
             $ = old$;
         },
 
         verificar: function () {
-
-            Ejer = app.storage('datosEjer').split(',');
-            cont_sinrev = 0;
-
-            ejer_sinrev = Array();
-
-
-            for (i = 0; i < Ejer.length; i++) {
-                idPreg = Ejer[i];
-                respuesta = JSON.parse(app.storage('respuesta_' + idPreg));
-
-                if (!respuesta || respuesta['revisado'] != 1) {
-                    ejer_sinrev[cont_sinrev++] = i + 1;
+            var temp = app.storage('id_ejer_list');
+            var ejer_sinrev = Array();
+    
+            if(temp){
+                var datosEjer = temp.split(',');
+                var cont_sinrev = 0;
+    
+                for (i = 0; i < datosEjer.length; i++) {
+                    idPreg = datosEjer[i];
+                    respuesta = JSON.parse(app.storage('respuesta_' + idPreg));
+    
+                    if (!respuesta || respuesta['revisado'] != 1) {
+                        ejer_sinrev[cont_sinrev++] = i + 1;
+                    }
+    
                 }
+            }           
 
-            }
             var msg_terminar = " Seguro que desea terminar el entramiento ? <br>";
             if (ejer_sinrev == 0) {
                 msg_terminar += 'Todos los ejercicios fueron revisados, acepte para ver los resultados del entrenamiento.';
@@ -415,7 +417,7 @@ var ejerAccion = function () {
                 msg_terminar += ' .<br>Si acepta estos ejercicios se dar&aacute;n por revisados.';
             }
             app.storage('ejer_sinrev', ejer_sinrev);
-            ejer.terminar(msg_terminar, "estadisticas");
+            Ejercitador.terminarModal(msg_terminar, "estadisticas");
 
         },
         escalarPuntos: function (puntos, escala) {
@@ -449,7 +451,7 @@ var ejerAccion = function () {
                 respuesta['revisado'] = 1;
                 respuesta['items_correctos'] = 0;
 
-                var cuerpo = ejer.ejer_cuerpo_list[idPreg];
+                var cuerpo = Ejercitador.ejer_cuerpo_list[idPreg];
                 if (cuerpo)
                     respuesta['items_incorrectos'] = cuerpo.length;
                 else
@@ -467,8 +469,8 @@ var ejerAccion = function () {
             if (total_items == respuesta['items_correctos'])
                 puntos = 100;
             else if (respuesta['items_incorrectos'] != total_items) {
-                var tipoPreg = ejer.ejer_pregunta_list[idPreg];
-                var tipoPregId = tipoPreg [ejer.epreg.id_tipo_preg];
+                var tipoPreg = Ejercitador.ejer_pregunta_list[idPreg];
+                var tipoPregId = tipoPreg [Ejercitador.epreg.id_tipo_preg];
 
                 if (tipoPregId == 2 || tipoPregId == 3) {
                     penalizar = 0.25 / total_items;
@@ -484,7 +486,11 @@ var ejerAccion = function () {
         },
         estadisticas: function () {
 
-            var datosEjer = app.storage('datosEjer').split(',');
+            var datosEjer = Array();
+            var temp = app.storage('id_ejer_list');
+            if(temp){
+                datosEjer = temp.split(',');
+            }
             var escala = app.storage('escala');
             var numPreg = 0;
             var cadena = '';
@@ -514,8 +520,8 @@ var ejerAccion = function () {
                 respuesta['puntuacion'] = puntos;
 
 
-                var tipoPreguntaId = ejer.ejer_pregunta_list[idPreg][ejer.epreg.id_tipo_preg];
-                tipoPregunta = ejer.tipo_preg_list[tipoPreguntaId];
+                var tipoPreguntaId = Ejercitador.ejer_pregunta_list[idPreg][Ejercitador.epreg.id_tipo_preg];
+                tipoPregunta = Ejercitador.tipo_preg_list[tipoPreguntaId];
                 cadena += 'Pregunta # ' + numPreg + '. Tipo de Pregunta: ' + tipoPregunta + '. Clificaci&oacute;n: ' + puntos + "\n";
 
                 //PARA EL PRIMER GRAFICO
@@ -539,7 +545,7 @@ var ejerAccion = function () {
             }
 
             var ejer_sinrev = app.storage('ejer_sinrev');
-            ejerAccion.puntosTotal = Math.round(puntosTotal / Ejer.length);
+            ejerAccion.puntosTotal = Math.round(puntosTotal / datosEjer.length);
             ejerAccion.puntosTotal = ejerAccion.escalarPuntos(ejerAccion.puntosTotal, escala);
 
             switch (escala) {
@@ -571,14 +577,14 @@ var ejerAccion = function () {
             ejerAccion.misEjer = datosEjer;
 
             $.get('model/ejercicio/estadisticas.html', function (resp, textStatus, result) {
-                ejer.mytarget.html(result.responseText);
+                Ejercitador.mytarget.html(result.responseText);
 
                 ejerAccion.crearGraficos();
                 var actual = parseInt(app.storage('posicion')) + 1;
                 $('#cant_ejer').html(actual + '/' + ejerAccion.misEjer.length);
                 $('#resultado_total').html('Puntuaci&oacute;n Total: ' + ejerAccion.graficar.total + ' de ' + datos['escala']);
 
-                ejer.eventosBtn();
+                Ejercitador.eventosBtn();
             });
 
         },
@@ -595,6 +601,11 @@ var ejerAccion = function () {
             if (graficar.parcial) {
                 datos1.push(['Parciales(' + graficar.parcial + ')', graficar.parcial]);
             }
+            
+            if(datos1.legend == 0){
+                Ejercitador.terminar("salir");
+            }
+
             var datos2 = [
                 [graficar.tipo1, 'Selecci&oacute;n Simple'],
                 [graficar.tipo2, 'Selecci&oacute;n Multiple'],
@@ -605,6 +616,7 @@ var ejerAccion = function () {
                 [graficar.tipo7, 'Identificar Respuesta Correcta']
             ];
 
+          
             var plot1 = $.jqplot('graf_general', [datos1], {
                 title: 'Por calificaci&oacute;n',
                 seriesColors: ['#C07C3B', '#AA2211', '#F1E4C2'],

@@ -202,12 +202,12 @@ var app = function () {
 
             $body.on('click', "span.error_field", function (e) {
                 var $el = $(e.currentTarget);
-                ejer.ventana_complement('Retroalimentaci&oacute;n de la Pregunta', $el.attr("title"));
+                Ejercitador.ventana_complement('Retroalimentaci&oacute;n de la Pregunta', $el.attr("title"));
             });
 
             $body.on('click', "#cerrar_secion", function (e) {
                 app.storageRemove('respuestas');
-                app.storageRemove('datosEjer');
+                app.storageRemove('id_ejer_list');
                 app.storageRemove('posicion');
                 app.storageRemove('escala');
             });
@@ -364,8 +364,6 @@ var app = function () {
                 app.ancla = "";
             }
 
-
-
             // galeria
             $('galeria, complementos', targetLoad).each(
                 function (i, gal) {
@@ -400,13 +398,12 @@ var app = function () {
 
             // ejercitador
             $('ejercitador', targetLoad).load('model/ejercicio/index.html', function () {
-                    ejer.init($(this));
+                    Ejercitador.init($(this));
                 }
             );
 
             // glosario
-            $('glosario', targetLoad).load('model/glosario/index.html',
-                glosario.init);
+            $('glosario', targetLoad).load('model/glosario/index.html', glosario.init);
 
 
             $('span.error_field').hide();
@@ -485,17 +482,17 @@ var app = function () {
             }
 
             app.get(loadUrl, function (result) {
-
-                if(metadata.tpl){
-                    result = $.tmpl(metadata.tpl ,  {content: result});
-                }
-
-                app.targetLoad.html(result);
-                app.selectOp(moduleName);
-
+                
                 $('html,body').animate({
                     scrollTop: 0
                 }, 100);
+
+                if(metadata.tpl){
+                    result = $.tmpl(metadata.tpl ,  {content: result});
+                }          
+              
+                app.targetLoad.html(result);
+                app.selectOp(moduleName);
 
                 if (saveHistory) {
                     app.saveHistory({
@@ -504,9 +501,11 @@ var app = function () {
                         "params": [moduleName, loadUrl]
                     });
                 }
-
-                if(app.home == moduleId){
-                    app.postLoadHome();
+             
+                switch(parseInt(moduleId)){
+                    case app.home: app.postLoadHome(); break;
+                    case config.mod.ejercicio: Ejercitador.init(); break;
+                    case config.mod.simulador: sim.init(); break;
                 }
                 return ownDeferred.promise();
             });
@@ -745,6 +744,7 @@ var app = function () {
         storageRemove: function (key) {
             //window.localStorage.removeItem(key);
             window.sessionStorage.removeItem(key);
+            //window.sessionStorage.setItem(key, null);
         },
         storage: function (key, value) {
             if (value) {
@@ -1065,8 +1065,8 @@ var Modal = function () {
                 this.footer.hide();
             }
 
-            ejer.setAttrPath("src", this.body);
-            ejer.setAttrPath("href", this.body);
+            Ejercitador.setAttrPath("src", this.body);
+            Ejercitador.setAttrPath("href", this.body);
 
             return this.el;
 

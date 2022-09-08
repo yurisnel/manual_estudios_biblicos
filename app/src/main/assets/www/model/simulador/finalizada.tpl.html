@@ -1,0 +1,53 @@
+<div class="cardNo ejercicio" data-id="${idPreg}">
+    <div class="card-body">
+        <h5 class="card-title text-right">${categoria}</h5>
+        <div class="card-text alert alert-primary">{{html enunciado}}</div>
+        <div class="card-text mb-2">
+
+            {{if message == "optimo"}}
+            <h5> Simulaci&oacute;n terminada de forma &oacute;ptima. Felicidades.</h5>
+            {{/if}}
+
+            {{if message == "no_optimo"}}
+            <h5> Simulaci&oacute;n terminada de forma no &oacute;ptima.</h5>
+            {{/if}}
+
+            {{if message == "fallido"}}
+            <h5> No ha demostrado los conocimientos necesarios para terminar la simulaci&oacute;n.</h5>
+            {{/if}}
+
+            {{if intentos > 0}}
+            <span>Le quedan  ${intentos} intento(s)</span>
+            {{/if}}
+            {{if intentos == 0}}
+            <span>Lo sentimos, ya no le quedan intentos</span>
+            {{/if}}
+        </div>
+
+
+        <table class="table table-striped">
+            <tr>
+                <th> Pasos seguidos en la simulaci&oacute;n</th>
+            </tr>
+            {{each(i,d) items}}
+            <tr>
+                <td>${i +1 } . ${d.text}</td>
+            </tr>
+            {{/each}}
+
+
+
+        </table>
+
+        <div class="row">
+            <div class="col-sm-6">
+                {{tmpl "#paginator"}}
+            </div>
+            <div class="col-sm-6 text-right" id="btns_comp">
+                <a href="#" class="btn btn-danger" id="terminar" role="button"><i class="fa fa-close"></i> Terminar</a>
+
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="col-md-6">
+    <div class="card file">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-3 remove_padding">
+                    <a href="${href}" title="${title}" target="_blank" class="tip">
+                        {{if src!=null}}
+                        <img class="card-img-top" src="${src}"/>
+                        {{/if}}
+                        {{if src==null}}
+                        <i class="icon fa ${type}"></i>
+                        {{/if}}
+
+                    </a>
+                </div>
+                <div class="col-9">
+                    <span class="name">${name}</span>
+                    <span class="description">{{html description}}</span>
+                    <span class="more">
+                        <span class="d-block"><i>${typeTitle}</i></span>
+                        <a href="${href}" target="_blank"><i class="fa fa-download"></i>&nbsp;${size}</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

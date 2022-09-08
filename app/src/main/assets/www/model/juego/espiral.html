@@ -1,0 +1,55 @@
+<html>
+<head>
+    <title>Juego Espiral</title>
+    <link rel="stylesheet" type="text/css" href="../../web/css/espiral.css">
+
+
+</head>
+<body>
+<div id="fade" class="overlay"></div>
+<div id="light9" class="modal"></div>
+<div id="light19" class="modal"></div>
+<div id="light21" class="modal"></div>
+<div id="light31" class="modal"></div>
+<div id="light39" class="modal"></div>
+<div id="light54" class="modal"></div>
+<div id="light60" class="modal"></div>
+<div id="ganado" class="modal" onclick="nsespiral.salir()"></div>
+<div id="perdido" class="modal" onclick="nsespiral.salir()"></div>
+<div id="pregunta" class="modalV">
+
+</div>
+<div id="generalEspiral">
+    <div id="cerrar" onclick="nsespiral.salir()"></div>
+    <div id="dado" onclick="nsespiral.dado(0);"><img src="../../web/images/juegos/espiral/caras/2.png" width="125"
+                                                     height="125" class="p"/></div>
+    <div id="dado_mostrar" onclick="nsespiral.dado(1);" class="dado_mostrar"></div>
+    <div id="reloj_maquina" class="class_reloj_maquina"></div>
+    <div id="reloj_usuario" class="class_reloj_usuario"></div>
+    <div id="contador_m"></div>
+    <div id="contador_u"></div>
+    <div id="usuario" class="class_usuario"></div>
+    <div id="maquina" class="class_maquina"></div>
+    <div id="targeta" class="class_targeta">
+    </div>
+    <div class="caja css3">
+    </div>
+    <div id="reloj" class="class_reloj">
+        <div id="minuto" class="class_minuto"></div>
+        <div id="segundo" class="class_segundo"></div>
+        <div id="mili" class="class_mili"></div>
+        <div id="fecha" class="class_fecha">
+            <div id="dia" class="class_dia"></div>
+            <div id="mes" class="class_mes"></div>
+            <div id="anno" class="class_ano"></div>
+        </div>
+    </div>
+</div>
+
+
+<script type='text/javascript' src='../../web/libs/jquery/dist/jquery.min.js'></script>
+<script type='text/javascript' src='../../web/js/juego.js'></script>
+<script type='text/javascript' src='../../web/js/espiral.js'></script>
+
+</body>
+</html>

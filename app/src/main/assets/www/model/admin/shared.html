@@ -1,0 +1,35 @@
+<h3 id="title-share" class="text-center py-4"> Compártenos con tus amigos</h2>
+<!--
+<div class="anu" data-ayoshare="http://your-site/blabla"></div>
+-->
+<div class="anu"></div>
+<script>
+
+if(isMovil() && AppNative) {	
+   AppNative.share(config.datosProd.app_name, config.datosProd.app_download);   
+   $("#title-share").click(function(){
+    AppNative.share(config.datosProd.app_name, config.datosProd.app_download); 
+   });
+  }else{
+   // shareDialog.classList.add('is-open');
+    
+    $(".anu").ayoshare({
+        counter: true,
+        content:config.datosProd.app_download,
+        button: {
+           // google : true,
+            facebook : true,
+            //linkedin : true,
+            twitter : true,
+            email : true,
+            whatsapp : true,
+            telegram : true,
+            /*pinterest : true,
+            line : true,
+            bbm : true,
+            viber : true,
+            sms : true*/
+        }
+    });
+}
+</script>
