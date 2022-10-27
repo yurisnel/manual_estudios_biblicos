@@ -341,14 +341,14 @@ var temario = function () {
         initNextEjerCnt: function ($ejercicios, pos) {
             if ($ejercicios.length > pos) {
                 $el = $($ejercicios[pos]);
-                ejer.loadEjercicioIdFromExternalAsc($el.attr("id"), $el, function () {
+                Ejercitador.loadEjercicioIdFromExternalAsc($el.attr("id"), $el, function () {
                     temario.initNextEjerCnt($ejercicios, ++pos);
                 });
             }
         },
 
         showEjercicio: function (idPregunta) {
-            ejer.showEjercicio(idPregunta, function (resp) {
+            Ejercitador.showEjercicio(idPregunta, function (resp) {
                 /*if(resp==1){
                  alert("corrrecta");
                  }else{

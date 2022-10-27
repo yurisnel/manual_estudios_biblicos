@@ -17,11 +17,11 @@ var nsespiral = function () {
 		},
 		cargar: function (e) {
 			if (parent.opener) {
-				ejer = parent.opener.ejer;
+				ejer = parent.opener.Ejercitador;
 				ejerAccion = parent.opener.ejerAccion;
 			}
 			// si no se han cargado los datos de los ejercicios
-			if (ejer.ejer_pregunta.length == 0) {
+			if (ejer && ejer.ejer_pregunta.length == 0) {
 				ejer.loadData();
 			}
 		},
@@ -518,7 +518,7 @@ nsespiral.showEjercicio = function (idPregunta) {
 
 nsespiral.btnEjerShow = function (id) {
 
-	$('#btns_comp div', ejer.mytarget).click(function (e) {
+	$('#btns_comp div', Ejercitador.mytarget).click(function (e) {
 		e.preventDefault();
 		el = $(e.target);
 		var idStr = e.target.id;
@@ -686,8 +686,8 @@ nsespiral.revisar = function () {
 	//var array_resp=$('#campos_respuestas').formSerialize();
 	//var resp=JSON.stringify(array_resp, null, 2);
 	//app.storage('respuestas',resp);
-	ejer.mytarget = "#pregunta";
-	ejer.funCallBack = nsespiral.CallBack;
+	Ejercitador.mytarget = "#pregunta";
+	Ejercitador.funCallBack = nsespiral.CallBack;
 	ejerAccion.revisado(nsespiral.idPregunta);
 };
 nsespiral.salir = function () {

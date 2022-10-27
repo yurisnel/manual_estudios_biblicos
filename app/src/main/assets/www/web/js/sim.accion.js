@@ -48,7 +48,7 @@ var simAccion = function () {
 
             var html = $.tmpl("escena_finalizada", data);
             sim.mytarget.html(html);
-            sim.eventosBtn(ejer.mytarget);
+            sim.eventosBtn(Ejercitador.mytarget);
 
         },
         haFallado: function (intentos) {
@@ -73,7 +73,7 @@ var simAccion = function () {
             data.intentos = (pos + 1) + '/' + helper.countNoEmpty(datSim);
             var html = $.tmpl("escena_finalizada", data);
             sim.mytarget.html(html);
-            sim.eventosBtn(ejer.mytarget);
+            sim.eventosBtn(Ejercitador.mytarget);
 
         },
 
