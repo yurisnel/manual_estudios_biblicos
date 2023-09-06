@@ -116,7 +116,17 @@
 
 
         <div class="col-12 text-center">
-            <button id="btn_comenzar" type="button" class="btn btn-success mt-2" style="margin: auto">
+            <div class="dropdown" style="display: inline-block;">
+                <button id="dropdownMenubConfig" type="button" class="btn btn-primary dropdown-toggle mt-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-right: 20px;">
+                    <i aria-hidden="true" class="fa fa-folder"></i> CONFIGURACIONES
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenubConfig">
+                    <a id="btn_config_save" class="dropdown-item" href="#">Salvar Config Actual</a>
+                    <a id="btn_config_load" class="dropdown-item" href="#">Cargar Config Previa</a>
+                    <input type="file" hidden="true" id="file_config" style="display: none;" />
+                </div>
+            </div>
+            <button id="btn_comenzar" type="button" class="btn btn-success mt-2">
                 <i aria-hidden="true" class="fa fa-check-square-o"></i> COMENZAR
             </button>
         </div>

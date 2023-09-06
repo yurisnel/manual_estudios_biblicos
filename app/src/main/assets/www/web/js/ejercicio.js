@@ -1,5 +1,42 @@
 //$("#op_intervalo").css("display",'');
 var Ejercitador = function () {
+    
+    Date.prototype.YYYYMMDDHHMMSS = function () {
+        var yyyy = this.getFullYear().toString();
+        var MM = pad(this.getMonth() + 1,2);
+        var dd = pad(this.getDate(), 2);
+        var hh = pad(this.getHours(), 2);
+        var mm = pad(this.getMinutes(), 2)
+        var ss = pad(this.getSeconds(), 2)
+
+        return yyyy + MM + dd+  hh + mm + ss;
+    };
+    function pad(number, length) {
+        var str = '' + number;
+        while (str.length < length) {
+            str = '0' + str;
+        }
+        return str;
+    }
+
+    function createDownloadLink(text, filename) {
+      var link = document.createElement("a");
+      link.setAttribute("target", "_blank");
+
+      if (Blob !== undefined) {
+        var blob = new Blob([text], { type: "text/html" });
+        link.setAttribute("href", URL.createObjectURL(blob));
+      } else {
+        link.setAttribute(
+          "href",
+          "data:text//plain;charset=utf-8," + encodeURIComponent(text)
+        );
+      }
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
 
     return {
         view: "model/ejercicio/index.html",
@@ -197,7 +234,7 @@ var Ejercitador = function () {
                     };
 
                     $.tmpl("tplTema", d).appendTo($loadTarget);
-                    var index = 0;
+                    var index = 1;
                     $.each(Ejercitador.ejer_pregunta[d.id_elemento], function (i, pos) {
                         dat = Ejercitador.ejer_pregunta_list[pos];
                         data = {
@@ -298,6 +335,8 @@ var Ejercitador = function () {
             });
 
             $('#btn_comenzar', Ejercitador.mytarget).click(Ejercitador.comenzarEntranamiento);
+            $('#btn_config_save', Ejercitador.mytarget).click(Ejercitador.saveConfiguration);
+            $('#btn_config_load', Ejercitador.mytarget).click(Ejercitador.loadConfiguration);
 
 
             //Para mostrar los distintos tipos de opciones
@@ -368,21 +407,53 @@ var Ejercitador = function () {
 
         },
 
-        comenzarEntranamiento: function () {
+        comenzarEntranamiento: function (data = false) {
+            if(!data){
+                data = Ejercitador.getDataForm();
+            }
 
-            var datos = Ejercitador.getDataForm();
-
-            if (datos.length == 0) {
+            if (data.length == 0) {
                 Modal.show("Debe seleccionar los ejercicios que desea ejercitar.");
             } else {
                 Ejercitador.resetCookie();
                 // Guardando datos en las cookies y sacando los datos para la primera pregunta.
-                app.storage('id_ejer_list', datos);
+                app.storage('id_ejer_list', data);
                 app.storage('posicion', "0");
                 app.storage('escala', $('#escalas :radio[checked]').val());
 
                 Ejercitador.loadEjercicioPos(0);
             }
+        },
+
+        saveConfiguration: function(e){
+            e.preventDefault();
+            var datos = Ejercitador.getDataForm();
+
+            if (datos.length == 0) {
+                Modal.show("Debe seleccionar los ejercicios que desea ejercitar.");
+            } else {
+                createDownloadLink(JSON.stringify(datos), "config"+new Date().YYYYMMDDHHMMSS()+".txt");
+            }
+        },
+
+        loadConfiguration: function(e){
+            e.preventDefault();
+            $('#file_config').on('change', function(e){
+                if(this.files.length > 0){	
+                    var file = this.files[0];
+                    
+                    let reader = new FileReader();
+                    reader.onload = (function(theFile) {
+                        return function(e) {
+                            let data = JSON.parse(e.target.result);
+                            Ejercitador.comenzarEntranamiento(data);
+                        };
+                      })(file);
+                
+                      reader.readAsText(file);
+                }
+            })
+            $('#file_config').click();
         },
 
         updateView: function (idEjer, targetLoad) {

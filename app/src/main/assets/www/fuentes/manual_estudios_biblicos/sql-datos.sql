@@ -291,7 +291,6 @@ INSERT INTO estructura (id_elemento,posicion,id_padre,nombre,oculto) VALUES
 ('314','2','62','Proclama alusivo al tema','0'), 
 ('316','5','-1','Compartir','0'), 
 ('317','4','-1','Biblia','0'), 
-('318','35','1','Test','0'), 
 ('320','24','1','Relevancias del Segundo Mandamiento','0');
 <endline>
 INSERT INTO contenido (id_elemento,plantilla,metadata) VALUES  
