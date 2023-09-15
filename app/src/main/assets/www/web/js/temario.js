@@ -29,16 +29,12 @@ var temario = function () {
             temario.pag.actual = -1;
 
             if(temario.lastTemaOpen){
-                $el = $("#"+temario.lastTemaOpen + '_tema');
-                if($el.length > 0){
-                    $('html, body').animate({
-                        scrollTop: parseInt($el.offset().top)
-                    }, 1000);    
-                }                            
+                $el = $("#" + temario.lastTemaOpen + '_tema');
+                temario.scrollToElement($el);
             }
         },
 
-        loadTree: function (idNode, param={}) {
+        loadTree: function (idNode, param = {}) {
 
             //var addClass, parent_id, addClass, addClassLi;
             
@@ -219,7 +215,6 @@ var temario = function () {
                 "call": "showPage",
                 "params": [id_tema]
             });
-            temario.lastTemaOpen = id_tema;
         },
 
         getDataTema: function (id_tema) {
@@ -283,7 +278,17 @@ var temario = function () {
             app.refreshPag(app.targetLoad);
             temario.navegation(app.targetLoad);
 
-            window.scrollTo(0, 0);
+            $lastLink = false;
+            if(temario.lastTemaOpen){
+                $lastLink = $('a[href*="temario/'+ temario.lastTemaOpen +'"]');
+                temario.scrollToElement($lastLink)
+            }
+            
+            if(!$lastLink || !$lastLink.length){
+              window.scrollTo(0, 0);
+            }
+
+            temario.lastTemaOpen = id_tema;
         },
 
         selectWook: function (e) {
@@ -317,7 +322,16 @@ var temario = function () {
                 temario.getTema(id_tema);
             }
         },
-        LoadEjerFormHtml: function (txt) {
+
+        scrollToElement: function($el){
+            if($el.length > 0){
+                $('html, body').animate({
+                    scrollTop: parseInt($el.offset().top)
+                }, 1000);
+            }
+        },
+
+        LoadEjerFormHtmlTest: function (txt) {
             var reg = new RegExp("<s*ejercicio[^>]*>(.*?)<s*/s*ejercicio>", "g"), html;
             var reg2 = new RegExp("<s*llave[^>]*>(.*?)<s*/s*llave>", "g");
             // var html = txt.replace(reg, ' <input type="text" name="valores[]" class="form-control" /> ');
@@ -341,7 +355,8 @@ var temario = function () {
         initNextEjerCnt: function ($ejercicios, pos) {
             if ($ejercicios.length > pos) {
                 $el = $($ejercicios[pos]);
-                Ejercitador.loadEjercicioIdFromExternalAsc($el.attr("id"), $el, function () {
+                $.when(Ejercitador.loadEjercicioIdFromExternalAsc($el.attr("id"), $el))
+                .done(function(a1){
                     temario.initNextEjerCnt($ejercicios, ++pos);
                 });
             }

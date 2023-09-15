@@ -426,6 +426,9 @@ input[type="checkbox"].ejer_select{
     bottom: 50px;
     z-index: 99;
 }
+ejercicio .btns_comp{
+    position: initial!important;
+}
 .btns_comp > a.btn{
     margin: 2px 0;
 }

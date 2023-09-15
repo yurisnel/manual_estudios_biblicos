@@ -70,20 +70,26 @@ var Ejercitador = function () {
             if (datosEjer.length || sin_categorias) { // si hay ejercicios pendientes
 
                 if (Ejercitador.ejer_pregunta.length == 0) {   // si no se han cargado los datos de los ejercicios
-                    Ejercitador.loadData(Ejercitador.postInit);
+                    $.when(Ejercitador.loadData())
+                    .done(function(a1){
+                        Ejercitador.postInit()
+                    });
                 } else {
                     Ejercitador.postInit();
                 }
             } else     // si se cargara las categorias de ejercicio(configuracion del ejercitador)
                 if (Ejercitador.ejer_pregunta.length == 0) {     // si no se han cargado los datos de los ejercicios
-                    Ejercitador.loadData(Ejercitador.createCategoria);
+                    $.when(Ejercitador.loadData())
+                    .done(function(a1){
+                        Ejercitador.createCategoria();
+                    });
                 } else {
                     Ejercitador.createCategoria();
                 }
         },
 
 
-        loadData: function (CallBack) {
+        loadData: function () {
 
             //PARA CARGAR LOS DATOS DE LA TABLA ejer_pregunta
             /*COMENTARIOS IMPORTANTES
@@ -93,12 +99,11 @@ var Ejercitador = function () {
              idat[4]-- ES EL ENUNCIADO DE LA PREGUNTA
              idat[5]-- Tipo pregunta
              */
-            var ownDeferred = $.Deferred();
-            var ajax1 = $.Deferred();
-            $.getJSON(app.urlData + '/ejer_pregunta.dat', function (resp, textStatus, result) {
+
+
+            var ajax1 = $.getJSON(app.urlData + '/ejer_pregunta.dat', function (resp) {
 
                 // resp = $.parseJSON(result.responseText);
-
                 $.each(resp, function (i, idat) {
                     idcat = parseInt(idat[Ejercitador.epreg.id_elemento]);
                     idpreg = parseInt(idat[Ejercitador.epreg.idpreg]);
@@ -114,7 +119,8 @@ var Ejercitador = function () {
                     Ejercitador.ejer_pregunta[idcat].push(idpreg);
                     Ejercitador.ejer_pregunta_list[idpreg] = idat;
                 });
-                ajax1.resolve();
+            }).fail(function(jqXHR, textStatus, errorThrown) { 
+                 console.log('Error ajax1. ' + errorThrown.message);
             });
 
             //PARA CARGAR LOS DATOS DE LA TABLA ejer_cuerpo
@@ -124,10 +130,8 @@ var Ejercitador = function () {
              idat[2]-- CUERPO DEL ITEM (CONTENIDO)
              idat[3]-- RESPUESTA DEL ITEM
              idat[4]-- VALOR CORRECTO DEL ITEM
-             */
-            var ajax2 = $.Deferred();
-            $.getJSON(app.urlData + '/ejer_cuerpo.dat', function (resp) {
-
+             */    
+             var ajax2 = $.getJSON(app.urlData + '/ejer_cuerpo.dat', function (resp) {
                 $.each(resp, function (i, idat) {
                     idpreg = parseInt(idat[Ejercitador.cuerpo.id_pregunta]);
                     if (!Ejercitador.ejer_cuerpo_list[idpreg]) {
@@ -136,49 +140,42 @@ var Ejercitador = function () {
                     Ejercitador.ejer_cuerpo_list[idpreg].push(idat);
                 });
 
-                ajax2.resolve();
+            }).fail(function(jqXHR, textStatus, errorThrown) { 
+                console.log('Error ajax2. ' + errorThrown.message);
             });
-
-            var ajax3 = $.Deferred();
-            $.getJSON(app.urlData + '/tipo_pregunta.dat', function (resp) {
-
+    
+            var ajax3 = $.getJSON(app.urlData + '/tipo_pregunta.dat', function (resp) {
                 $.each(resp, function (i, idat) {
                     idtipo = parseInt(idat[0]);
                     Ejercitador.tipo_preg_list[idtipo] = idat[1];
                 });
-
-                ajax3.resolve();
+            }).fail(function(jqXHR, textStatus, errorThrown) { 
+                console.log('Error ajax3. ' + errorThrown.message);
             });
 
-            var ajax4 = $.Deferred();
-            $.getJSON(app.urlData + '/cuerpo_retro.dat', function (resp) {
-
+            var ajax4 = $.getJSON(app.urlData + '/cuerpo_retro.dat', function (resp) {
                 $.each(resp, function (i, idat) {
                     idretro = parseInt(idat[0]);
                     Ejercitador.cuerpo_retro_list[idretro] = idat[1];
                 });
 
-                ajax4.resolve();
+            }).fail(function(jqXHR, textStatus, errorThrown) { 
+                console.log('Error ajax4. ' + errorThrown.message);
             });
-
-            var ajax5 = $.Deferred();
-            $.getJSON(app.urlData + '/ejer_retro.dat', function (resp) {
-
+ 
+            var ajax5 = $.getJSON(app.urlData + '/ejer_retro.dat', function (resp) {
                 $.each(resp, function (i, idat) {
                     var idpreg = parseInt(idat[Ejercitador.tipoRetro.idpreg]);
                     Ejercitador.ejer_retro_list[idpreg] = idat;                   
                 });
-                ajax5.resolve();
+              
+            }).fail(function(jqXHR, textStatus, errorThrown) { 
+                console.log('Error ajax5. ' + errorThrown.message);
             });
 
-            $.when(ajax1, ajax2, ajax3, ajax4, ajax5)
-                .then(function (e) {
-                    if (CallBack) CallBack();
-                    return ownDeferred.resolve();
-                });
-
-            return ownDeferred.promise();
+           return $.when(ajax1, ajax2, ajax3, ajax4, ajax5);
         },
+
         createCategoria: function (module) {
 
             if (!module) {
@@ -640,29 +637,28 @@ var Ejercitador = function () {
             }
         },
         // mostrar ejericio desde modulo exterior asincronico por si hay que cargar los ejericios
-        loadEjercicioIdFromExternalAsc: function (idEjer, target, callBack) {
+        loadEjercicioIdFromExternalAsc: function (idEjer, target) {
 
             if (Ejercitador.ejer_pregunta_list.length > 0) {
-                Ejercitador.loadEjercicioIdFromExternalAux(idEjer, target, callBack);
+                return Ejercitador.loadEjercicioIdFromExternalAux(idEjer, target);
             } else {
-                Ejercitador.loadData(function () {
-                    Ejercitador.loadEjercicioIdFromExternalAux(idEjer, target, callBack);
-                })
+                return $.when(Ejercitador.loadData())
+                .done(function(a1){
+                    Ejercitador.loadEjercicioIdFromExternalAux(idEjer, target);
+                });
             }
         },
 
-        loadEjercicioIdFromExternalAux: function (idEjer, target, callBack) {
+        loadEjercicioIdFromExternalAux: function (idEjer, target) {
             var ejer_datos = Ejercitador.getEjercicio(idEjer);
             var url = app.urlprod + '/ejercicio/' + idEjer + ".html";
-            $.get(url, function (resp, textStatus, result) {
+            return $.get(url, function (resp, textStatus, result) {
                 ejer_datos.enunciado = result.responseText;
 
                 ejer_datos.fromModuleExternal = true;
                 target.html($.tmpl("interior_ejer", ejer_datos));
                 Ejercitador.eventosBtn(target);
                 Ejercitador.updateView(idEjer, target);
-
-                if (callBack) callBack();
             });
 
         },
@@ -825,9 +821,10 @@ var Ejercitador = function () {
             if (Ejercitador.ejer_pregunta_list.length > 0) {
                 Ejercitador.showEjercicioAux(idEjer);
             } else {
-                Ejercitador.loadData(function () {
+                $.when(Ejercitador.loadData())
+                .done(function(a1){
                     Ejercitador.showEjercicioAux(idEjer);
-                })
+                });
             }
         },
         showEjercicioAux: function (idEjer) {
