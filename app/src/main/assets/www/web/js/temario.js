@@ -325,9 +325,11 @@ var temario = function () {
 
         scrollToElement: function($el){
             if($el.length > 0){
-                $('html, body').animate({
+                $el[0].scrollIntoView({ behavior: 'smooth' })
+
+                /*$('html, body').animate({
                     scrollTop: parseInt($el.offset().top)
-                }, 1000);
+                }, 1000);*/
             }
         },
 
