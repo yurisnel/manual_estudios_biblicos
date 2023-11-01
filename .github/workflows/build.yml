@@ -1,5 +1,8 @@
 name: Build
-
+env:
+  # The name Apk
+  apk_name: HeadSoftApp
+  
 on:
   push:
     branches:
@@ -12,12 +15,33 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      
+      #Set Current Date As Env Variable
+      - name: Set current date as env variable
+        run: echo "date_today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      #Set Repository Name As Env Variable
+      - name: Set repository name as env variable
+        run: echo "repository_name=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
+
       - name: set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
           cache: 'gradle'
-
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew        
       - name: Build with Gradle
         run: ./gradlew build
+      # Create APK Release
+      - name: Build apk release project (APK)
+        run: ./gradlew assemble
+      
+      # Upload Artifact Build
+      # Noted For Output app/build/outputs/apk/release/
+      - name: Upload APK Release
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.date_today }} - ${{ env.apk_name }} - ${{ env.repository_name }} - APK(s) release generated
+          path: app/build/outputs/apk/release/
