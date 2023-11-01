@@ -10,8 +10,8 @@ android {
         applicationId = "com.biblicalinstitute.manual"
         minSdk = 19
         targetSdk = 33
-        versionCode = 20
-        versionName = "2.0.1"
+        versionCode = 23
+        versionName = "2.0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -27,7 +27,9 @@ table td{
 .mejs__video, .mejs__audio, .video-js{
     margin: 0 auto;
 }
-
+.vjs-audio{
+    height: 40px;
+}
 .video-js .vjs-big-play-button{
     height: 30px;
     width: 60px;
