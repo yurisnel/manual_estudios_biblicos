@@ -1,7 +1,7 @@
 name: Build
 env:
   # The name Apk
-  apk_name: HeadSoftApp
+  apk_name: HeaSoftApp
   
 on:
   push:
