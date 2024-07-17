@@ -1,18 +1,28 @@
 <div class="row">
-    <div class="col-md-3 border-right-m" >
+    <div class="col-md-3 border-right-m" id="galery_left">
         <h3 class="text-center d-none d-md-block">Categorías</h3>
-        <ul id="gal_menu">
+        <ul id="galery_menu">
         </ul>
     </div>
-    <div class="col-md-9 full-height" >
-        <h3 id="gal_title" class="text-center d-none d-md-block"></h3>
-        <div id="gal_centro" class="row py-2">
+    <div class="col-md-9 full-height" id="galery_right">
+
+        <div class="title-bar">
+            <h3 id="galery_title" class="d-none d-md-block"></h3>
+            <form action="" class="form-filter">
+                <div class="input-group filter-box">
+                    <button type="button" class="close"><span>×</span></button>
+                    &ensp;
+                    <input type="text" class="form-control" placeholder="Buscar...">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <div id="galery_centro" class="row py-2">
 
         </div>
     </div>
 </div>
-
-
-<script>
-    nsgaleria.init(app.currentModule);
-</script>

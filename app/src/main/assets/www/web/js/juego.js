@@ -1,7 +1,7 @@
 var nsjuego = function () {
 
     return {
-        view: "model/galeria/index.html",
+        view: nsgaleria.view,
         data: new Array(),
         tipos: new Array(),
         cuerpos: new Array(),
@@ -86,7 +86,7 @@ var nsjuego = function () {
         }
         , loadModule: function (url, loadTarget) {
             if (!loadTarget) loadTarget = app.targetLoad;
-            $(loadTarget).load("model/galeria/index.html",
+            $(loadTarget).load(nsgaleria.view,
                 function () {
                     nsgaleria.createMenu(config.mod.juego);
                     nsjuego.render(url, nsgaleria.target);

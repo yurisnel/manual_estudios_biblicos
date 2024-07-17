@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 				//Uri u = Uri.parse(url);
                 File f = getFileFromAsset(url_dec);
                 
-                Uri u = FileProvider.getUriForFile(MainActivity.this, BuildConfig.APPLICATION_ID + ".provider", f);
+                Uri u = FileProvider.getUriForFile(MainActivity.this, getPackageName() + ".provider", f);
                 viewIntent.setDataAndType(u, mimeType);
                 try {
                     Intent chooser = Intent.createChooser(viewIntent, "Selecciona app para abrir el archivo");

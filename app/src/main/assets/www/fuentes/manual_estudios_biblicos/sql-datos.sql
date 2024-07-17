@@ -1,5 +1,5 @@
 INSERT INTO estructura (id_elemento,posicion,id_padre,nombre,oculto) VALUES  
-('1','1','-1','Temario','0'), 
+('1','2','-1','Temario','0'), 
 ('2','3','-1','Ejercicios','1'), 
 ('3','5','-1','Mediateca','1'), 
 ('4','2','-1','Glosario','1'), 
@@ -7,14 +7,14 @@ INSERT INTO estructura (id_elemento,posicion,id_padre,nombre,oculto) VALUES
 ('6','0','-1','Home','0'), 
 ('7','8','-1','Ayuda','0'), 
 ('8','4','-1','Simulación','1'), 
-('9','7','-1','Juegos','1'), 
+('9','7','-1','Audiolibro','1'), 
 ('10','0','3','Imágenes','0'), 
 ('11','1','3','Videos','0'), 
 ('12','2','3','Sonidos','0'), 
 ('13','3','3','Animación','0'), 
 ('14','0','7','Informática','1'), 
-('15','1','7','Pedagógica','1'), 
-('16','2','7','Créditos','0'), 
+('15','0','7','Ayuda','1'), 
+('16','0','7','Créditos','0'), 
 ('17','2','1','Valores doctrinales del libro','0'), 
 ('18','3','1','Biografía del autor y comentarios','0'), 
 ('19','4','1','Introducción','0'), 
@@ -113,18 +113,17 @@ INSERT INTO estructura (id_elemento,posicion,id_padre,nombre,oculto) VALUES
 ('118','0','1','Importante reseña gramatical','0'), 
 ('119','0','30','Introducción','0'), 
 ('120','4','59','Lección No. 36 Tercer mandamiento','0'), 
-('121','0','85','Introducción','0'), 
+('121','0','85','Introducción:','0'), 
 ('123','27','1','Derivados del Padre','0'), 
 ('124','19','1','Parábola del sembrador','0'), 
-('128','29','1','Versión Reina-Valera 1602','0'), 
-('129','30','1','Acerca del dios sol, sus leyendas y rituales idolátricos','0'), 
+('129','29','1','Acerca del dios sol, sus leyendas y rituales idolátricos','0'), 
 ('130','28','1','Simbolismos ','0'), 
 ('131','5','23','Lección No 4 Algunos de sus propositos','0'), 
 ('132','6','23','Lección No. 5 Enseñarnos hacer uso práctico de la oración','0'), 
-('134','30','1','Lo que Dios juntó no lo aparte el hombre','0'), 
-('135','31','1','Señal de potestad','0'), 
-('136','32','1','Testimonio de confirmación divina acerca del sábado','0'), 
-('137','33','1','Testimonios de confirmación divina acerca del segundo mandamiento','0'), 
+('134','29','1','Lo que Dios juntó no lo aparte el hombre','0'), 
+('135','30','1','Señal de potestad','0'), 
+('136','31','1','Testimonio de confirmación divina acerca del sábado','0'), 
+('137','32','1','Testimonios de confirmación divina acerca del segundo mandamiento','0'), 
 ('138','2','23','Leccion No.  2 La Biblia, el libro escrito por inspiración divina ','0'), 
 ('140','18','30','Lección No. 23 Acerca de la Trinidad. Divinidad de Jesucristo y del Espíritu Santo ','0'), 
 ('141','1','2','Leccion No. 1','0'), 
@@ -286,12 +285,15 @@ INSERT INTO estructura (id_elemento,posicion,id_padre,nombre,oculto) VALUES
 ('308','1','107','Ejercicios','0'), 
 ('309','1','108','Ejercicios','0'), 
 ('310','1','109','Ejercicios','0'), 
-('312','34','1','Viandas sacrificadas','0'), 
 ('313','3','-1','Ob. Ventura Luis','0'), 
 ('314','2','62','Proclama alusivo al tema','0'), 
 ('316','5','-1','Compartir','0'), 
 ('317','4','-1','Biblia','0'), 
-('320','24','1','Relevancias del Segundo Mandamiento','0');
+('320','24','1','Relevancias del Segundo Mandamiento','0'), 
+('360','33','1','Dos Pactos de Dios con el hombre y una promesa divina','0'), 
+('361','34','1','Manual de Estudios Bíblicos Versión Nombres Divinos   ','0'), 
+('363','35','1','Manual de Estudios Bíblicos: Conocimientos Fundamentales de la Doctrina Cristiana','0'), 
+('364','1','-1','Audiolibro','0');
 <endline>
 INSERT INTO contenido (id_elemento,plantilla,metadata) VALUES  
 ('1','0','{\"href\":\"model/contenido/index.html\",\"icon\":\"fa-book\"}'), 
@@ -306,11 +308,12 @@ INSERT INTO contenido (id_elemento,plantilla,metadata) VALUES
 ('11','0','{\"href\": \"model/galeria/index.html\", \"icon\": \"fa-film\"}'), 
 ('12','0','{\"href\": \"model/galeria/index.html\", \"icon\": \"fa-headphones\"}'), 
 ('13','0','{\"href\": \"model/galeria/index.html\", \"icon\": \"fa-gamepad\"}'), 
-('15','0','{\"icon\": \"fa-question\"}'), 
+('15','0','{\"icon\": \"fa-headphones\"}'), 
 ('16','0','{\"icon\": \"fa-meh-o\", \"tpl\": \"creditos\"}'), 
 ('313','0','{\"href\":\"http://bluis.org/\", \"external\":true}'), 
 ('316','0','{\"href\":\"model/admin/shared.html\",\"icon\":\"fa-share-alt\", \"onClick\":\"app.share\"}'), 
-('317','0','{\"href\":\"https://churchages.net/es/bible/\",\"external\":true}');
+('317','0','{\"href\":\"https://churchages.net/es/bible/\",\"external\":true}'), 
+('364','0','{\"href\":\"https://www.horizontesdevidaeterna.com/audiolibroyoutube\",\"external\":true}');
 <endline>
 INSERT INTO ejer_pregunta (id_pregunta,max_intento,id_elemento,seleccion,enunciado,id_tipo_preg) VALUES  
 ('2','2','141','0','<p>1. De acuerdo con la introducci&oacute;n, diga cu&aacute;l es la fuente primordial de nuestra fe:</p>','1'), 
@@ -1687,7 +1690,7 @@ INSERT INTO producto (campo,valor) VALUES
 ('checkEstructura','on'), 
 ('checkLogoProyecto','on'), 
 ('checkPresentInicio','off'), 
-('coleccion',''), 
+('coleccion','Atilano Guilarte'), 
 ('colors','{\"primary\":\"\",\"accent\":\"\"}'), 
 ('disennoLibre',''), 
 ('logoProyecto','insignia.png'), 
@@ -1703,28 +1706,30 @@ font-zize: 1.6rem;
 .hebraica{
 font-zize: 1.6rem;
 }
+
 h3, h4, h5 {
-color: #000;
-font-weight: bold;
+    color: #000;
+    font-weight: bold;
 }
 .indice{
-max-width: 400px;
-margin: 20px auto;
-padding:4px
+    max-width: 400px;
+    margin: 20px auto;
+   padding:4px
 }
 .indice .line{  
-display:flex;
-/* justify-content:space-between; */
+    display:flex;
+    /* justify-content:space-between; */
 }
 .indice .book{
-white-space: pre;
+    white-space: pre;
 }
+
 .indice .line-dotted{
-width: 100%;
-height: 5px;
-display: inline-block;
-margin: 10px 6px 0 6px;
-border-bottom: 3px dotted;
+    width: 100%;
+    height: 5px;
+    display: inline-block;
+    margin: 10px 6px 0 6px;
+    border-bottom: 3px dotted;
 }
 '), 
 ('nombre',''), 

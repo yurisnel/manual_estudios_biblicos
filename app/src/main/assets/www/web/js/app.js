@@ -372,7 +372,7 @@ var app = function () {
                     if (parseInt(link)) {
                         nsgaleria.render(link, $el.parent());
                     } else {
-                        $el.parent().load("model/galeria/index.html",
+                        $el.parent().load(nsgaleria.view,
                             function () {
                                 var param = link.split('/');
                                 var idGal = getIdGaleria(param[1]);
@@ -397,13 +397,13 @@ var app = function () {
             });
 
             // ejercitador
-            $('ejercitador', targetLoad).load('model/ejercicio/index.html', function () {
+            $('ejercitador', targetLoad).load(Ejercitador.view, function () {
                     Ejercitador.init($(this));
                 }
             );
 
             // glosario
-            $('glosario', targetLoad).load('model/glosario/index.html', glosario.init);
+            $('glosario', targetLoad).load(glosario.view, glosario.init);
 
 
             $('span.error_field').hide();
@@ -473,14 +473,6 @@ var app = function () {
                 loadUrl = metadata.href;
             }
 
-
-            switch (moduleId) {
-                case config.mod.simulador:  case config.mod.juegos:  case config.complemento.id:
-                case config.imagen.id:  case config.video.id: case config.sonido.id:  case config.animacion.id:
-                    saveHistory = false;
-                    break;
-            }
-
             app.get(loadUrl, function (result) {
                 
                 $('html,body').animate({
@@ -502,10 +494,28 @@ var app = function () {
                     });
                 }
              
-                switch(parseInt(moduleId)){
-                    case app.home: app.postLoadHome(); break;
-                    case config.mod.ejercicio: Ejercitador.init(); break;
-                    case config.mod.simulador: sim.init(); break;
+                switch (parseInt(moduleId)) {
+                  case app.home:
+                    app.postLoadHome();
+                    break;
+                  case config.mod.ejercicio:
+                    Ejercitador.init();
+                    break;
+                  case config.mod.simulador:
+                    sim.init();
+                    break;
+                  case config.mod.simulador:
+                    saveHistory = false;
+                    break;
+                  case config.mod.juegos:
+                  case config.complemento.id:
+                  case config.imagen.id:
+                  case config.video.id:
+                  case config.sonido.id:
+                  case config.animacion.id:
+                    saveHistory = false;
+                    nsgaleria.init(app.currentModule);
+                    break;
                 }
                 return ownDeferred.promise();
             });
