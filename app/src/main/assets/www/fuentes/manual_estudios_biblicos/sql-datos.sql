@@ -91,7 +91,7 @@ INSERT INTO estructura (id_elemento,posicion,id_padre,nombre,oculto) VALUES
 ('93','3','90','Lección No. 63 El bautismo del Espíritu Santo','0'), 
 ('94','19','1','Capítulo 10: Normas de conducta para el cristiano','0'), 
 ('95','1','94','Lección No. 64 La santidad','0'), 
-('96','2','94','Lección No. 65 El reposo del sábado. Un mandamiento vigente?','0'), 
+('96','2','94','Lección No. 65 El reposo del sábado, ¿Un mandamiento vigente?','0'), 
 ('97','3','94','Lección No. 66 Dejar las obras de la carne y buscar los frutos del Espíritu','0'), 
 ('98','4','94','Lección No. 67 Recomendado el amor fraternal','0'), 
 ('99','5','94','Lección No. 68 La práctica del perdón, una exigencia divina','0'), 
@@ -104,7 +104,7 @@ INSERT INTO estructura (id_elemento,posicion,id_padre,nombre,oculto) VALUES
 ('106','12','94','Lección No. 75 Acerca del diezmo','0'), 
 ('107','13','94','Lección No. 76 Atavío de la mujer cristiana','0'), 
 ('108','14','94','Lección No. 77 Ley de salubridad alimenticia','0'), 
-('109','15','94','Lección No. 78 El vínculo matrimonial, Aún pacto permanente?','0'), 
+('109','15','94','Lección No. 78 El vínculo matrimonial, ¿Un pacto permanente?','0'), 
 ('111','20','1','Sugerencia del autor','0'), 
 ('112','22','1','Nombres del Padre y del Hijo','0'), 
 ('113','23','1','Ministerio evangelístico individual','0'), 
@@ -290,9 +290,6 @@ INSERT INTO estructura (id_elemento,posicion,id_padre,nombre,oculto) VALUES
 ('316','5','-1','Compartir','0'), 
 ('317','4','-1','Biblia','0'), 
 ('320','24','1','Relevancias del Segundo Mandamiento','0'), 
-('360','33','1','Dos Pactos de Dios con el hombre y una promesa divina','0'), 
-('361','34','1','Manual de Estudios Bíblicos Versión Nombres Divinos   ','0'), 
-('363','35','1','Manual de Estudios Bíblicos: Conocimientos Fundamentales de la Doctrina Cristiana','0'), 
 ('364','1','-1','Audiolibro','0');
 <endline>
 INSERT INTO contenido (id_elemento,plantilla,metadata) VALUES  
